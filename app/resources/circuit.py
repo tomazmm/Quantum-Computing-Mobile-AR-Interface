@@ -1,3 +1,4 @@
+import os
 from flask_restful import Resource
 from flask import request
 
@@ -8,48 +9,23 @@ errors = {
 }
 
 class Circuit(Resource):
-    @staticmethod
-    def get():
+
+    algos_path = os.getcwd() + "/app/common/algorithms/"
+
+    def get(self):
         algo = request.args.get("algorithm")
         if algo is None:
-            return "Not Implemented: Return list of all algorithms.", 200
-        return algo
+            return os.listdir(self.algos_path), 200
+        else:
+            algo += ".qasm"
+            for file in os.listdir(self.algos_path):
+                if file == algo:
+                    # return send_file(self.algos_path + file, as_attachment=True)
+                    return {
+                        "status": 200,
+                        "qasm": open(self.algos_path + file, "r").read()
+                    }
 
-
-
-
-
-####
-# import functools
-#
-# from flask import (
-#     Blueprint, request
-# )
-# from qiskit import QuantumCircuit, Aer, execute
-#
-# bp = Blueprint('circuit', __name__, url_prefix='/circuit')
-#
-# qasm_str = """OPENQASM 2.0;
-# include "qelib1.inc";
-# qreg q[2];
-# creg c[2];
-# h q[0];
-# cx q[0],q[1];
-# measure q -> c;
-# """
-#
-#
-#
-#
-#
-# @bp.route('/', methods=["GET"])
-# def circuit():
-#     algo = request.args.get("algorithm")
-#     if algo is None:
-#         return "Not Implemented: Return list of all algorithms.", 500
-#     return algo
-#
-#
 # @bp.route('/run', methods=["GET"])
 # def runQASMCircuit():
 #     try:
