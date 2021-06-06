@@ -8,8 +8,8 @@ errors = {
     }
 }
 
-class Circuit(Resource):
 
+class Circuit(Resource):
     algos_path = os.getcwd() + "/app/common/algorithms/"
 
     def get(self):
@@ -42,4 +42,3 @@ class Circuit(Resource):
 #         return result.get_counts()
 #     except Exception as e:
 #         return e.args[0], 400
-
