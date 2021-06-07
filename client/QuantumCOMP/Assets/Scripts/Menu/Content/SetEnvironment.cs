@@ -1,44 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace QuantomCOMP
 {
-    public class SetEnvironment : MonoBehaviour
+    public class SetEnvironment : Content
     {
 
-        void Start()
+        private void Start()
         {
+            objectName = "SetEnvironment";
+            nameOfSection = Section.Environment;
             subscribeToSectionEvent();
-        }
+        }     
 
-        private void subscribeToSectionEvent()
+        public void setBoardWithQBits()
         {
-            Menu.OnSelectedSectionEvent += onSelected;
+            selectWorldObject((int)WorldObject.EnvironmentObject.Board);
         }
 
-        private void onSelected(Section section)
+        public void setBlochSphere()
         {
-            if (section.Equals(Section.Environment))
-            {
-                foreach (Transform child in GameObject.Find("Content").transform)
-                {
-                    if (child.name.Contains("SetEnvironment"))
-                        child.gameObject.SetActive(true);
-                }
-            }
-            else
-            {
-                foreach (Transform child in GameObject.Find("Content").transform)
-                {
-                    if (child.name.Contains("SetEnvironment"))
-                        child.gameObject.SetActive(false);
-                }
-            }
-
+            selectWorldObject((int)WorldObject.EnvironmentObject.BlochSphere);
         }
-
 
     }
 }

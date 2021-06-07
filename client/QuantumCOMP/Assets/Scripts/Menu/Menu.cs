@@ -13,15 +13,14 @@ namespace QuantomCOMP{
         Settings
     }
 
-
     public class Menu : MonoBehaviour
     {
 
         public delegate void SelectSection(Section section);
         public static event SelectSection OnSelectedSectionEvent;
 
-        private int section = 0;
-        private string top = "Set Environment";
+        private int section;
+        private string top;
 
         public void toggleMenu()
         {
@@ -38,17 +37,14 @@ namespace QuantomCOMP{
             {
                 case 0:
                     top = "Set Environment";
-                    Debug.Log("0 " + section);
                     OnSelectedSectionEvent(Section.Environment);
                     break;
                 case 1:
                     top = "Gates";
-                    Debug.Log("1 " + section);
                     OnSelectedSectionEvent(Section.Gates);
                     break;
                 case 2:
                     top = "Settings";
-                    Debug.Log("2 " + section);
                     OnSelectedSectionEvent(Section.Settings);
                     break;
             }
@@ -69,11 +65,8 @@ namespace QuantomCOMP{
         private void Start()
         {
             gameObject.SetActive(false);
-        }
-
-        private void Update()
-        {
-
+            top = "Set Environment";
+            section = 0;
         }
 
     }

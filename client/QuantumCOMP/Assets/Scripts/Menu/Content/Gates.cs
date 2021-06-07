@@ -4,38 +4,24 @@ using UnityEngine;
 
 namespace QuantomCOMP
 {
-    public class Gates : MonoBehaviour
+    public class Gates : Content
     {
-        void Start()
+        private void Start()
         {
+            objectName = "Gates";
+            nameOfSection = Section.Gates;
             subscribeToSectionEvent();
             gameObject.SetActive(false);
         }
 
-        private void subscribeToSectionEvent()
+        public void xxGate()
         {
-            Menu.OnSelectedSectionEvent += onSelected;
+            selectWorldObject((int)WorldObject.Gates.xx);
         }
 
-        private void onSelected(Section section)
+        public void yyGate()
         {
-            if (section.Equals(Section.Gates))
-            {
-                foreach (Transform child in GameObject.Find("Content").transform)
-                {
-                    if (child.name.Contains("Gates"))
-                        child.gameObject.SetActive(true);
-                }
-            }
-            else
-            {
-                foreach (Transform child in GameObject.Find("Content").transform)
-                {
-                    if (child.name.Contains("Gates"))
-                        child.gameObject.SetActive(false);
-                }
-            }
-
+            selectWorldObject((int)WorldObject.Gates.yy);
         }
     }
 }
