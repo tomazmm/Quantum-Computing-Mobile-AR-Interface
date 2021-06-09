@@ -24,10 +24,16 @@ namespace QuantomCOMP{
 
         public void toggleMenu()
         {
-            if (gameObject.activeSelf == true)
+            if (Canvas.toggleMenu == true)
+            {
                 gameObject.SetActive(false);
+                Canvas.toggleMenu = false;
+            }
             else
+            {
                 gameObject.SetActive(true);
+                Canvas.toggleMenu = true;
+            }                                   
         }
 
         public void selectSection(int section)
@@ -64,9 +70,14 @@ namespace QuantomCOMP{
 
         private void Start()
         {
-            gameObject.SetActive(false);
+            gameObject.SetActive(Canvas.toggleMenu);
             top = "Set Environment";
             section = 0;
+        }
+
+        private void Update()
+        {
+            gameObject.SetActive(Canvas.toggleMenu);
         }
 
     }
