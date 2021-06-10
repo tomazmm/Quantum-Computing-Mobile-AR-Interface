@@ -13,7 +13,7 @@ namespace QuantomCOMP
     public class Canvas : MonoBehaviour
     {
         public static bool toggleMenu;
-        private ScreenRotation screenState;
+        public static ScreenRotation screenState;
         private void setScreenState()
         {
             if (Screen.width <= Screen.height)
@@ -25,19 +25,20 @@ namespace QuantomCOMP
             {
                 if (screenState == ScreenRotation.Portrait)
                 {
-                    if (child.name == "Portrait")
+                    if (child.name.Contains("Portrait"))
                         child.gameObject.SetActive(true);
-                    if (child.name == "Landscape")
+                    if (child.name.Contains("Landscape"))
                         child.gameObject.SetActive(false);
                 }
                 else
                 {
-                    if (child.name == "Portrait")
+                    if (child.name.Contains("Portrait"))
                         child.gameObject.SetActive(false);
-                    if (child.name == "Landscape")
+                    if (child.name.Contains("Landscape"))
                         child.gameObject.SetActive(true);
                 }
             }
+            
         }
 
         private void Start()
