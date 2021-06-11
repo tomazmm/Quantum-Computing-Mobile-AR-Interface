@@ -37,8 +37,7 @@ namespace QuantomCOMP
                     if (child.name.Contains("Landscape"))
                         child.gameObject.SetActive(true);
                 }
-            }
-            
+            }           
         }
 
         private void Start()
