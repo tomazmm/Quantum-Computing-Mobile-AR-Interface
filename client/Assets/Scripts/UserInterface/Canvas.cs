@@ -43,6 +43,9 @@ namespace QuantomCOMP
         private void Start()
         {
             toggleMenu = false;
+            SharedStateSwitch.enableDisablePositioning(false);
+            SharedStateSwitch.enableDisableToggleMenuButton(true);
+            SharedStateSwitch.enableDisableMenu(toggleMenu);
             setScreenState();
         }
 

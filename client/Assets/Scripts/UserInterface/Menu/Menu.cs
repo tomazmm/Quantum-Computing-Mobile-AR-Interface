@@ -24,10 +24,7 @@ namespace QuantomCOMP{
 
         public void menuState()
         {
-            if (Canvas.toggleMenu)
-                gameObject.SetActive(false);
-            else
-                gameObject.SetActive(true);                        
+            SharedStateSwitch.enableDisableMenu(!Canvas.toggleMenu);
         }
 
         public void selectSection(int section)
@@ -62,7 +59,6 @@ namespace QuantomCOMP{
 
         private void Start()
         {
-            gameObject.SetActive(Canvas.toggleMenu);
             top = "Set Environment";
             section = 0;
         }
