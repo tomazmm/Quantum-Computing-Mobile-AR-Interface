@@ -16,12 +16,12 @@ namespace QuantomCOMP
 
         public void xxGate()
         {
-            selectWorldObject((int)WorldObject.Gates.xx);
+            selectWorldObjectGate(WorldObject.Gates.xx);
         }
 
         public void yyGate()
         {
-            selectWorldObject((int)WorldObject.Gates.yy);
+            selectWorldObjectGate(WorldObject.Gates.yy);
         }
     }
 }

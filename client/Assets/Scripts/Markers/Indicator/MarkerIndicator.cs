@@ -7,10 +7,11 @@ using UnityEngine.XR.ARSubsystems;
 
 namespace QuantomCOMP
 {
-    public class MarkerIndicator : MonoBehaviour
+    public class MarkerIndicator : Marker
     {
         private GameObject placementIndicator;
         private Pose placementPose;
+        public static Pose staticPlacementPose;
         private ARRaycastManager aRRaycastManager;
         private bool placementPoseIsValid = false;
 
@@ -24,6 +25,7 @@ namespace QuantomCOMP
         {
             UpdatePlacementPose();
             UpdatePlacementIndicator();
+            staticPlacementPose = placementPose;
         }
 
         private void UpdatePlacementIndicator()

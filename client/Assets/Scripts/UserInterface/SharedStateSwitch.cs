@@ -8,8 +8,8 @@ namespace QuantomCOMP
     {
         public static void enableDisablePositioning(bool state)
         {
-            GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetPositionScreen").gameObject.SetActive(state);
-            GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetPositionScreen").gameObject.SetActive(state);
+            GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetPositionScreen").transform.Find("Content").gameObject.SetActive(state);
+            GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetPositionScreen").transform.Find("Content").gameObject.SetActive(state);
             GameObject.Find("Markers").transform.Find("Indicator").gameObject.SetActive(state);
         }
 

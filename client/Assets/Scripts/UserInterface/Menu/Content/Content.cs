@@ -23,9 +23,12 @@ namespace QuantomCOMP
 
     public class Content : MonoBehaviour
     {
-        //TODO: add eventlistener function to onSelectedWorldObjectEvent
-        public delegate void SetPositionToWObject(int wObject);
+        public delegate void SetPositionToWObject(WorldObject.EnvironmentObject wObject);
         public static event SetPositionToWObject OnSelectedWorldObjectEvent;
+
+        //TODO: append eventlistener
+        public delegate void SetPositionToWObjectGates(WorldObject.Gates wObject);
+        public static event SetPositionToWObjectGates OnSelectedWorldObjectGatesEvent;
 
         protected string objectName = null;
         protected Section nameOfSection;     
@@ -55,9 +58,14 @@ namespace QuantomCOMP
             }
         }
 
-        protected void selectWorldObject(int wObject)
+        protected void selectWorldObject(WorldObject.EnvironmentObject wObject)
         {
             OnSelectedWorldObjectEvent(wObject);
+        }
+
+        protected void selectWorldObjectGate(WorldObject.Gates wObject)
+        {
+            OnSelectedWorldObjectGatesEvent(wObject);
         }
     }
 }

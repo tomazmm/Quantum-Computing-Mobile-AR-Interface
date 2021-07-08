@@ -14,12 +14,12 @@ namespace QuantomCOMP
 
         public void setBoardWithQBits()
         {
-            selectWorldObject((int)WorldObject.EnvironmentObject.Board);
+            selectWorldObject(WorldObject.EnvironmentObject.Board);
         }
 
         public void setBlochSphere()
         {
-            selectWorldObject((int)WorldObject.EnvironmentObject.BlochSphere);
+            selectWorldObject(WorldObject.EnvironmentObject.BlochSphere);
         }
 
     }
