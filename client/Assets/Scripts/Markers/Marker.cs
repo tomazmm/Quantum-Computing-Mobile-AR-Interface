@@ -9,7 +9,6 @@ namespace QuantomCOMP
     {    
         void Start()
         {
-            SharedStateSwitch.enableDisableIndicator(false);
             subscribeToEvent();
         }
 
@@ -23,7 +22,6 @@ namespace QuantomCOMP
             SharedStateSwitch.enableDisableMenu(false);
             SharedStateSwitch.enableDisableToggleMenuButton(false);
             SharedStateSwitch.enableDisablePositioning(true);
-            SharedStateSwitch.enableDisableIndicator(true);
 
             //if (wObject == (int)WorldObject.EnvironmentObject.Board)
             //{

@@ -6,12 +6,9 @@ namespace QuantomCOMP
 {
     public class ToggleMenuButton : MonoBehaviour
     {
-        public void setMenuState()
+        public void menuState()
         {
-            if (Canvas.toggleMenu)
-                Canvas.toggleMenu = false;
-            else
-                Canvas.toggleMenu = true;
+            SharedStateSwitch.enableDisableMenu(Canvas.toggleMenu);
         }
     }
 }

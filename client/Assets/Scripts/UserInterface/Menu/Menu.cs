@@ -22,11 +22,6 @@ namespace QuantomCOMP{
         private int section;
         private string top;
 
-        public void menuState()
-        {
-            SharedStateSwitch.enableDisableMenu(!Canvas.toggleMenu);
-        }
-
         public void selectSection(int section)
         {
             this.section = section;

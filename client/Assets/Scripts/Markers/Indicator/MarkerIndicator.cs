@@ -54,8 +54,6 @@ namespace QuantomCOMP
                 placementPose.rotation = Quaternion.LookRotation(cameraRotation);
             }
         }
-
-        //public
     }
 }
 
