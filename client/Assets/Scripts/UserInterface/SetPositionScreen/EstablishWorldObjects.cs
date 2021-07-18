@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace QuantomCOMP
 {
@@ -39,16 +41,34 @@ namespace QuantomCOMP
 
         private void subscribeToEvent()
         {
-            Content.OnSelectedWorldObjectEvent += enableOrDisableMarker;
+            Content.OnSelectedWorldObjectEvent += enablePositioning;
         }
 
-        private void enableOrDisableMarker(WorldObject.EnvironmentObject wObject)
+        private void enablePositioning(WorldObject.EnvironmentObject wObject)
         {
             worldObject = wObject;
 
+            setTitle();
             SharedStateSwitch.enableDisableMenu(false);
             SharedStateSwitch.enableDisableToggleMenuButton(false);
             SharedStateSwitch.enableDisablePositioning(true);
+        }
+
+        private void setTitle()
+        {
+            if(worldObject == 0)
+            {
+                GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set board";
+                GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set board";
+                SharedStateSwitch.enableDisableQubitsMenu(true);
+
+            }
+            else
+            {
+                GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set sphere";
+                GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set sphere";
+                SharedStateSwitch.enableDisableQubitsMenu(false);
+            }         
         }
     }
 }

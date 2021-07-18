@@ -26,6 +26,11 @@ namespace QuantomCOMP
             Canvas.toggleMenu = !state;
         }
 
+        public static void enableDisableQubitsMenu(bool state)
+        {
+            GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("Qubits").gameObject.SetActive(state);
+            GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("Qubits").gameObject.SetActive(state);
+        }
 
     }
 }
