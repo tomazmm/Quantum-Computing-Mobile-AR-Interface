@@ -13,7 +13,7 @@ namespace QuantomCOMP
         public static event EstablishPositionBoard ConfirmPositionOfBoardEvent;
 
         public delegate void EstablishPositionGate ();
-        public static event EstablishPositionGate ConfirmPositionOfGateEvent;
+        public static event EstablishPositionGate ConfirmPositionOfSphereEvent;
 
         private void Start()
         {
@@ -36,8 +36,9 @@ namespace QuantomCOMP
             if (worldObject == WorldObject.EnvironmentObject.Board)
                 ConfirmPositionOfBoardEvent();
             else
-                ConfirmPositionOfGateEvent();
+                ConfirmPositionOfSphereEvent();
         }
+
 
         private void subscribeToEvent()
         {
@@ -49,9 +50,20 @@ namespace QuantomCOMP
             worldObject = wObject;
 
             setTitle();
+            SetDropDownMenu();
             SharedStateSwitch.enableDisableMenu(false);
             SharedStateSwitch.enableDisableToggleMenuButton(false);
             SharedStateSwitch.enableDisablePositioning(true);
+        }
+
+        private void SetDropDownMenu()
+        {
+            if (worldObject == 0)
+                SharedStateSwitch.enableDisableQubitsMenu(true);
+
+            else
+                SharedStateSwitch.enableDisableQubitsMenu(false);
+            
         }
 
         private void setTitle()
@@ -60,14 +72,12 @@ namespace QuantomCOMP
             {
                 GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set board";
                 GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set board";
-                SharedStateSwitch.enableDisableQubitsMenu(true);
 
             }
             else
             {
                 GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set sphere";
                 GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set sphere";
-                SharedStateSwitch.enableDisableQubitsMenu(false);
             }         
         }
     }

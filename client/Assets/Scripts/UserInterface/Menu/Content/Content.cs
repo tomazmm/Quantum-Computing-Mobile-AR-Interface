@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace QuantomCOMP
@@ -57,6 +58,17 @@ namespace QuantomCOMP
                 }
             }
         }
+
+        public static void Beginning()
+        {
+
+        }
+
+        //private static bool positionBoard()
+        //{
+        //    return true;
+        //}
+
 
         protected void selectWorldObject(WorldObject.EnvironmentObject wObject)
         {

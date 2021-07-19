@@ -45,6 +45,8 @@ namespace QuantomCOMP
             SharedStateSwitch.enableDisablePositioning(false);
             SharedStateSwitch.enableDisableToggleMenuButton(true);
             SharedStateSwitch.enableDisableMenu(false);
+            //TODO: make async function for very begining, which will set board and sphere
+            Content.Beginning();
             setScreenState();
         }
 
