@@ -9,16 +9,19 @@ namespace QuantomCOMP
     {
         public enum EnvironmentObject
         {
-            Board = 0,
-            BlochSphere = 1
+            Board,
+            BlochSphere
         }
 
         public enum Gates
         {
             //TODO: INSERT GATES
-            xx = 10,
-            yy = 11
+            None,
+            Hgate,
+            NotGate
         }
+        public static List<string> listOfWObjects = new List<string>() { "Board", "Sphere" };
+        public static List<string> listOfGates = new List<string>(){"None","H gate", "NOT gate"};
     }
 
 
@@ -63,11 +66,6 @@ namespace QuantomCOMP
         {
 
         }
-
-        //private static bool positionBoard()
-        //{
-        //    return true;
-        //}
 
 
         protected void selectWorldObject(WorldObject.EnvironmentObject wObject)

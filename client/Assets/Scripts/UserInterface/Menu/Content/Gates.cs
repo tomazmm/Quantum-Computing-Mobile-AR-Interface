@@ -14,14 +14,14 @@ namespace QuantomCOMP
             gameObject.SetActive(false);
         }
 
-        public void xxGate()
+        public void HGate()
         {
-            selectWorldObjectGate(WorldObject.Gates.xx);
+            selectWorldObjectGate(WorldObject.Gates.Hgate);
         }
 
-        public void yyGate()
+        public void NotGate()
         {
-            selectWorldObjectGate(WorldObject.Gates.yy);
+            selectWorldObjectGate(WorldObject.Gates.NotGate);
         }
     }
 }

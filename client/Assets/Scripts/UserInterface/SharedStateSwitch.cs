@@ -13,6 +13,12 @@ namespace QuantomCOMP
             GameObject.Find("Markers").transform.Find("Indicator").gameObject.SetActive(state);
         }
 
+        public static void enableDisableGatePositioning(bool state)
+        {
+            GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetGates").transform.Find("Content").gameObject.SetActive(state);
+            GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetGates").transform.Find("Content").gameObject.SetActive(state);
+        }
+
         public static void enableDisableToggleMenuButton(bool state)
         {
             GameObject.Find("Canvas").transform.Find("ToggleMenu").gameObject.SetActive(state);

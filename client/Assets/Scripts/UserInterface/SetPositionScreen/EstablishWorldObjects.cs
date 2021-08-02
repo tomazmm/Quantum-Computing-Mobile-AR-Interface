@@ -12,8 +12,8 @@ namespace QuantomCOMP
         public delegate void EstablishPositionBoard ();
         public static event EstablishPositionBoard ConfirmPositionOfBoardEvent;
 
-        public delegate void EstablishPositionGate ();
-        public static event EstablishPositionGate ConfirmPositionOfSphereEvent;
+        public delegate void EstablishPositionSphere ();
+        public static event EstablishPositionSphere ConfirmPositionOfSphereEvent;
 
         private void Start()
         {
@@ -68,17 +68,10 @@ namespace QuantomCOMP
 
         private void setTitle()
         {
-            if(worldObject == 0)
-            {
-                GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set board";
-                GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set board";
 
-            }
-            else
-            {
-                GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set sphere";
-                GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set sphere";
-            }         
+            GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set " + WorldObject.listOfWObjects[(int)worldObject];
+            GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set " + WorldObject.listOfWObjects[(int)worldObject];
+                  
         }
     }
 }
