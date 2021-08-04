@@ -9,10 +9,17 @@ namespace QuantomCOMP
     public class Gestures : MonoBehaviour
     {
         public new Camera camera;
-        private GameObject selectedGameGateArea;
+        private GameObject selectedArea;
+        public static WorldObject.Gates gate;
 
-        public delegate void PositionGate(GameObject gateArea);
+        public delegate void PositionGate(GameObject gateArea, WorldObject.Gates gate);
         public static event PositionGate PositionOfGateEvent;
+
+        public delegate void RemoveGate(GameObject gateArea, WorldObject.Gates gate);
+        public static event RemoveGate RemoveGateEvent;
+
+        public delegate void SwitchGate(GameObject gateArea, WorldObject.Gates gate);
+        public static event SwitchGate SwitchGateEvent;
 
         void Update()
         {
@@ -24,13 +31,31 @@ namespace QuantomCOMP
                 if (Physics.Raycast(raycast_m, out raycastHit_m))
                 {
                     //Debug.Log(raycastHit_m.collider.name);
-                    if (raycastHit_m.collider.name.Contains("SphereArea"))
+                    if(raycastHit_m.collider.name.Contains("SphereArea"))
                     {
-                        Debug.Log("SphereArea clicked");
-                        selectedGameGateArea = raycastHit_m.collider.gameObject;
+                        //Debug.Log("SphereArea clicked");
+                        selectedArea = raycastHit_m.collider.gameObject;
                         if(EstablishGateInWorldObject.enableGatePositioning)
-                            PositionOfGateEvent(selectedGameGateArea);
+                            PositionOfGateEvent(selectedArea, gate);
                     }
+
+                    if (raycastHit_m.collider.name.Contains("gate"))
+                    {
+                        //Debug.Log("gate clicked");
+                        selectedArea = raycastHit_m.collider.gameObject;
+                        if (EstablishGateInWorldObject.enableGatePositioning)
+                        {
+                            //Debug.Log(selectedArea.name + "  " + gate);
+                            if (selectedArea.name.Contains(gate.ToString()))
+                                RemoveGateEvent(selectedArea, gate);
+                            else
+                                SwitchGateEvent(selectedArea, gate);
+                        }
+                            
+                    }
+
+
+
 
                 }
             }

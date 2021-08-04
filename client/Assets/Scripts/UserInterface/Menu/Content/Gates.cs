@@ -21,7 +21,7 @@ namespace QuantomCOMP
 
         public void NotGate()
         {
-            selectWorldObjectGate(WorldObject.Gates.NotGate);
+            selectWorldObjectGate(WorldObject.Gates.Notgate);
         }
     }
 }

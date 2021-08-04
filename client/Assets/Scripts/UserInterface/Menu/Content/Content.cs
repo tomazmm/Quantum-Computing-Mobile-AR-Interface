@@ -18,7 +18,7 @@ namespace QuantomCOMP
             //TODO: INSERT GATES
             None,
             Hgate,
-            NotGate
+            Notgate
         }
         public static List<string> listOfWObjects = new List<string>() { "Board", "Sphere" };
         public static List<string> listOfGates = new List<string>(){"None","H gate", "NOT gate"};

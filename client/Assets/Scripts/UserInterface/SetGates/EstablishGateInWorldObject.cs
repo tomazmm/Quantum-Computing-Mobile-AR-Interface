@@ -11,6 +11,7 @@ namespace QuantomCOMP
 
         public delegate void EstablishPositionGate(bool state);
         public static event EstablishPositionGate ConfirmPositionOfGateEvent;
+
         public static bool enableGatePositioning;
 
  
@@ -24,20 +25,24 @@ namespace QuantomCOMP
         {
             enableGatePositioning = false;
             gate = WorldObject.Gates.None;
+            Gestures.gate = gate;
             ConfirmPositionOfGateEvent(false);
             SharedStateSwitch.enableDisableMenu(true);
             SharedStateSwitch.enableDisableToggleMenuButton(true);
             SharedStateSwitch.enableDisableGatePositioning(false);
+            Qbit.deleteUnconfirmedGates();
         }
 
         public void confirmPositioning()
         {
             //SharedStateSwitch.enableDisableMenu(true);
             gate = WorldObject.Gates.None;
+            Gestures.gate = gate;
             enableGatePositioning = false;
             ConfirmPositionOfGateEvent(true);
             SharedStateSwitch.enableDisableToggleMenuButton(true);
             SharedStateSwitch.enableDisableGatePositioning(false);
+            Qbit.deleteUnconfirmedGates();
         }
 
         private void subscribeToEvent()
@@ -48,6 +53,7 @@ namespace QuantomCOMP
         private void enablePositioning(WorldObject.Gates wGate)
         {
             gate = wGate;
+            Gestures.gate = gate;
             enableGatePositioning = true;
             setTitle();
             SharedStateSwitch.enableDisableMenu(false);
