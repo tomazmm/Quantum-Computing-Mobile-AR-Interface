@@ -26,9 +26,9 @@ namespace QuantomCOMP
         public static QbitArea getQbitArea(GameObject gateArea)
         {
             return (from sublist in QbitsBoard.listOfQbits
-             from item in sublist.areas
-             where item.qbitGate == gateArea
-             select item).FirstOrDefault();
+                    from item in sublist.areas
+                    where item.qbitGate == gateArea
+                    select item).FirstOrDefault();
         }
 
         public static void showQbitAreas()
@@ -71,6 +71,87 @@ namespace QuantomCOMP
             }
         }
 
+        public static bool aditionalSpaceForAreas()
+        {
+            bool additionalSpaceRequired = false;
+            foreach (Qbit _qbit in QbitsBoard.listOfQbits)
+            {
+                if (_qbit.areas.Last().qbitGate != null)
+                {
+                    additionalSpaceRequired = true;
+                    break;
+                }
+                //foreach (QbitArea _qbitArea in _qbit.areas)
+                //{
+                //    if (_qbitArea.qbitGate == null)
+                //    {
+                //        additionalSpaceRequired = false;
+                //    }
+                //    else
+                //        additionalSpaceRequired = true;                     
+                //}
+                //if (additionalSpaceRequired)
+                //    break;
+            }
+            return additionalSpaceRequired;
+        }
+
+        public static bool tooMuchSpaceForAreas()
+        {          
+            int availableQbits = 0;
+            foreach (Qbit _qbit in QbitsBoard.listOfQbits)
+            {
+                if(_qbit.areas.Count() >= 3)
+                {
+                    if (_qbit.areas.Last().qbitGate == null && _qbit.areas[_qbit.areas.Count()-2].qbitGate == null && _qbit.areas.Count()-1 >= 3)
+                    {
+                        availableQbits += 1;                     
+                    }                  
+                }
+            }
+            if (availableQbits == QbitsBoard.listOfQbits.Count())
+                return true;
+            else
+                return false;
+        }
+
+        public static void createAdditionalSpaceAreas(float position)
+        {
+            foreach (Qbit _qbit in QbitsBoard.listOfQbits)
+            {
+                //var lastAreainQbit = _qbit.areas.Last();
+                var number = _qbit.areas.Count() + 1;
+
+                var qbitArea = new QbitArea();
+
+                GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                sphere.GetComponent<MeshRenderer>().material = Resources.Load("GatePoint", typeof(Material)) as Material;
+                sphere.SetActive(false);
+                sphere.transform.parent = _qbit.qbit.transform;
+                sphere.name = sphere.name + "Area" + number;
+                sphere.transform.localScale = new Vector3(0.05f, 0.1f, 0.05f);
+                sphere.transform.localPosition = new Vector3(0 + position * number, 0, 0);
+                sphere.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                sphere.GetComponent<SphereCollider>().radius = 0.6f;
+                qbitArea.isConfirmed = false;
+                qbitArea.qbitArea = sphere;
+                qbitArea.qbitGate = null;
+
+                _qbit.line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(_qbit.line.GetComponent<LineRenderer>().GetPosition(1).x + position, 0, 0));
+
+                _qbit.areas.Add(qbitArea);
+            }
+        }
+
+        public static void removeAdditionalSpaceAreas(float position)
+        {
+            foreach (Qbit _qbit in QbitsBoard.listOfQbits)
+            {
+                _qbit.areas.Remove(_qbit.areas.Last());
+                _qbit.line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(_qbit.line.GetComponent<LineRenderer>().GetPosition(1).x - position, 0, 0));
+            }
+        }
+
         public static void shiftGates()
         {
             //TODO: make an algorithm, which is going to shift gates left if it can.
@@ -81,7 +162,9 @@ namespace QuantomCOMP
     public class QbitsBoard : MonoBehaviour
     {
         private GameObject board;
-        private float boardConstant = 0.25f;
+        private GameObject boardBackground;
+        private float boardConstant = 0.4f;
+        private float areaPositionConstant = 0.25f;
         public static List<Qbit> listOfQbits;
         private int numberBits = 1;
         private LineRenderer lineRenderer;
@@ -92,8 +175,9 @@ namespace QuantomCOMP
         void Start()
         {
             board = GameObject.Find("Board").gameObject;
+            boardBackground = GameObject.Find("BoardBackground").gameObject;
             subscribeToConfirmPositionEvent();
-            board.GetComponent<MeshRenderer>().enabled = false;
+            board.SetActive(false);
             listOfQbits = new List<Qbit>();
         }
 
@@ -113,20 +197,29 @@ namespace QuantomCOMP
 
         private void setBoard()
         {
-            //boardConstant = (float)1 / numberBits;
-            boardHeight = boardConstant + (numberBits * boardConstant);
-
-            board.GetComponent<MeshRenderer>().enabled = true;
+            board.SetActive(true);
             board.transform.position = MarkerIndicator.staticPlacementPose.position;
             board.transform.rotation = MarkerIndicator.staticPlacementPose.rotation;
-            board.transform.localScale = new Vector3(1, boardHeight, 1);
+            board.transform.localScale = new Vector3(1, 0.5f, 1);
+
+            setBoardBackground(0);
+        }
+
+        private void setBoardBackground(int v)
+        {
+            boardHeight = boardConstant + (numberBits * boardConstant);
+
+            boardBackground.transform.localPosition = new Vector3(0, 0, 0);
+            boardBackground.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            boardBackground.transform.localScale = new Vector3(1, boardHeight, 0);
         }
 
         private void deleteBoard()
         {
             foreach(Transform child in gameObject.transform)
             {
-                Destroy(child.gameObject);
+                if(!child.name.Contains("BoardBackground"))
+                    Destroy(child.gameObject);
             }
             listOfQbits.Clear();
         }
@@ -161,14 +254,14 @@ namespace QuantomCOMP
 
         private void setQbitPosition(GameObject qbit, int number)
         {
-            qbit.transform.localPosition = new Vector3(0 - 0.5f, 0 + 0.5f - (number * ((float)1 / (numberBits + 1))), 0);
+            //qbit.transform.localPosition = new Vector3(0 - 0.5f, 0 + 0.5f - (number * ((float)1 / (numberBits + 1))), 0);
+            qbit.transform.localPosition = new Vector3(0 - 0.5f, 0 + boardBackground.transform.localScale.y/2 - (number * (boardBackground.transform.localScale.y / (numberBits + 1))), 0);
             qbit.transform.localRotation = new Quaternion(0, 0, 0, 0);
-            qbit.transform.localScale = new Vector3(1, 1 - 0.2f * (numberBits - 1), 1);
+            qbit.transform.localScale = new Vector3(1, 1, 1);
         }
 
         private void setLineInBoard(GameObject line, int number)
         {
-            // y is 0.5 because upper or lower half of the whole board is at this position start or end
             line.transform.localPosition = new Vector3(0,  0, 0);
             line.transform.localRotation = new Quaternion(0, 0, 0, 0);
             line.transform.localScale = new Vector3(1, 0, 0);
@@ -195,25 +288,10 @@ namespace QuantomCOMP
 
         private void setAreasForGates(GameObject qbit, GameObject line, Qbit qbitObject)
         {
-            var position = 0.25f;
+            var position = areaPositionConstant;
             qbitObject.areas = new List<QbitArea>();
             for(int x = 1; x <= 3; x++)
             {
-                //var point = new GameObject(qbit.name + "PointArea" + x);
-                //point.transform.parent = qbit.transform;
-                //var pointRenderer = point.AddComponent<LineRenderer>();
-                //pointRenderer.useWorldSpace = false;
-                //pointRenderer.startWidth = 0.1f;
-                //pointRenderer.positionCount = 2;
-                //pointRenderer.SetPosition(0, new Vector3(0, 0.05f, 0));
-                //pointRenderer.SetPosition(1, new Vector3(0, 0, 0));
-                //point.gameObject.transform.localPosition = new Vector3(0 + position * x, 0, 0);
-
-                ////box colider
-                //var boxColider = point.AddComponent<BoxCollider>();
-                //boxColider.center = new Vector3(0.025f, 0.025f, 0);
-                //boxColider.size = new Vector3(0.05f, 0.05f, 0.1f);
-
                 QbitArea qbitArea = new QbitArea();
 
                 GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -238,11 +316,35 @@ namespace QuantomCOMP
             numberBits = _object.GetComponent<Dropdown>().value + 1;
         }
 
-        //TODO: create additional space on board
         public void createAdditionalSpace()
         {
-
+            bool state = Qbit.aditionalSpaceForAreas();
+            if (state)
+            {
+                boardBackground.transform.localPosition = new Vector3(boardBackground.transform.localPosition.x + areaPositionConstant/2, 0, 0);
+                float y = boardBackground.transform.localScale.y;
+                float z = boardBackground.transform.localScale.z; 
+                boardBackground.transform.localScale = new Vector3(boardBackground.transform.localScale.x + areaPositionConstant, y, z);
+                Qbit.createAdditionalSpaceAreas(areaPositionConstant);
+            }
         }
+
+        public void removeAdditionalSpace()
+        {
+            bool state = Qbit.tooMuchSpaceForAreas();
+            if (state)
+            {
+                Debug.Log(state);
+                boardBackground.transform.localPosition = new Vector3(boardBackground.transform.localPosition.x - areaPositionConstant / 2, 0, 0);
+                float y = boardBackground.transform.localScale.y;
+                float z = boardBackground.transform.localScale.z;
+                boardBackground.transform.localScale = new Vector3(boardBackground.transform.localScale.x - areaPositionConstant, y, z);
+                Qbit.removeAdditionalSpaceAreas(areaPositionConstant);
+            }
+            
+        }
+
+        public
 
         // Update is called once per frame
         void Update()
@@ -250,7 +352,10 @@ namespace QuantomCOMP
             //TODO: add if for remove gates
             if(EstablishGateInWorldObject.enableGatePositioning){
                 Qbit.showQbitAreas();
-            }else
+                createAdditionalSpace();
+                removeAdditionalSpace();
+            }
+            else
             {
                 Qbit.hideQbitAreas();
             }

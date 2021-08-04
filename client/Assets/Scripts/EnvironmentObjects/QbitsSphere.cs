@@ -12,7 +12,7 @@ namespace QuantomCOMP
         {
             sphere = GameObject.Find("QSphere").gameObject;
             subscribeToConfirmPositionEvent();
-            sphere.GetComponent<MeshRenderer>().enabled = false;
+            sphere.SetActive(false);
         }
 
         private void subscribeToConfirmPositionEvent()
@@ -24,7 +24,7 @@ namespace QuantomCOMP
         private void setSphere()
         {
 
-            sphere.GetComponent<MeshRenderer>().enabled = true;
+            sphere.SetActive(true);
             sphere.transform.position = MarkerIndicator.staticPlacementPose.position;
             sphere.transform.rotation = MarkerIndicator.staticPlacementPose.rotation;
             //sphere.transform.localScale = new Vector3(1, 1, 1);
