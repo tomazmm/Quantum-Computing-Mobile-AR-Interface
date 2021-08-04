@@ -43,7 +43,10 @@ namespace QuantomCOMP
             SharedStateSwitch.enableDisableToggleMenuButton(true);
             SharedStateSwitch.enableDisableGatePositioning(false);
             Qbit.deleteUnconfirmedGates();
-            Interpreter.boardToQasm();
+            
+            var qasm = Interpreter.boardToQasm();
+            ApiConnector.runCircuit();
+
         }
 
         private void subscribeToEvent()
