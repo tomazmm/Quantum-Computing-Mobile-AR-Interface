@@ -46,7 +46,7 @@ namespace QuantomCOMP
                         if (EstablishGateInWorldObject.enableGatePositioning)
                         {
                             //Debug.Log(selectedArea.name + "  " + gate);
-                            if (selectedArea.name.Contains(gate.ToString()))
+                            if (selectedArea.name.Contains(gate.ToString()) && !selectedArea.name.Contains(WorldObject.Gates.CNotgate.ToString()) && !selectedArea.name.Contains(WorldObject.Gates.Toffoligate.ToString()))
                                 RemoveGateEvent(selectedArea, gate);
                             else
                                 SwitchGateEvent(selectedArea, gate);

@@ -14,7 +14,8 @@ namespace QuantomCOMP
         public GameObject qbitArea;
         public GameObject qbitGate;
         //TODO: more than one position
-        public List<QbitArea> connectedGateAreas;
+        // needs to check if between connected areas
+        public QbitArea connectedGateArea;
     }
 
     public class Qbit
@@ -37,7 +38,7 @@ namespace QuantomCOMP
             {
                 foreach (QbitArea _qbitArea in _qbit.areas)
                 {
-                    if (_qbitArea.qbitGate == null)
+                    if (_qbitArea.qbitGate == null && _qbitArea.connectedGateArea == null)
                     {
                         _qbitArea.qbitArea.SetActive(true);
                         break;
@@ -66,7 +67,11 @@ namespace QuantomCOMP
                 foreach (QbitArea _qbitArea in _qbit.areas)
                 {
                     if (!_qbitArea.isConfirmed && _qbitArea.qbitGate == null)
+                    {
                         _qbitArea.qbitGate = null;
+                        //_qbitArea.connectedGateArea = null;
+                    }
+                        
                 }
             }
         }
@@ -136,6 +141,7 @@ namespace QuantomCOMP
                 qbitArea.isConfirmed = false;
                 qbitArea.qbitArea = sphere;
                 qbitArea.qbitGate = null;
+                qbitArea.connectedGateArea = null;
 
                 _qbit.line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(_qbit.line.GetComponent<LineRenderer>().GetPosition(1).x + position, 0, 0));
 
@@ -157,6 +163,37 @@ namespace QuantomCOMP
             //TODO: make an algorithm, which is going to shift gates left if it can.
         }
 
+        public static void enableQbitSameRowAreas()
+        {
+            foreach (Qbit _qbit in QbitsBoard.listOfQbits)
+            {
+                foreach (QbitArea _qbitArea in _qbit.areas)
+                {
+                    if (_qbitArea.qbitArea.name.Contains(QbitsGates.areasInRow.ToString()))
+                    {
+                        _qbitArea.qbitArea.SetActive(true);
+                    }
+                    else
+                    {
+                        _qbitArea.qbitArea.SetActive(false);
+                    }
+                }
+            }
+        }
+
+        public static void disableQbitSameRowAreas()
+        {
+            foreach (Qbit _qbit in QbitsBoard.listOfQbits)
+            {
+                foreach (QbitArea _qbitArea in _qbit.areas)
+                {
+                    if (_qbitArea.qbitGate != null)
+                        _qbitArea.qbitArea.SetActive(true);
+                    else
+                        _qbitArea.qbitArea.SetActive(false);
+                }
+            }
+        }
     }
 
     public class QbitsBoard : MonoBehaviour
@@ -334,7 +371,7 @@ namespace QuantomCOMP
             bool state = Qbit.tooMuchSpaceForAreas();
             if (state)
             {
-                Debug.Log(state);
+                //Debug.Log(state);
                 boardBackground.transform.localPosition = new Vector3(boardBackground.transform.localPosition.x - areaPositionConstant / 2, 0, 0);
                 float y = boardBackground.transform.localScale.y;
                 float z = boardBackground.transform.localScale.z;
@@ -344,14 +381,38 @@ namespace QuantomCOMP
             
         }
 
-        public
+        public bool finished = false;
 
         // Update is called once per frame
         void Update()
         {
             //TODO: add if for remove gates
             if(EstablishGateInWorldObject.enableGatePositioning){
-                Qbit.showQbitAreas();
+                if(!QbitsGates.buildingOnMultipleGatesAreas)
+                {
+                    Qbit.disableQbitSameRowAreas();
+                    Qbit.showQbitAreas();
+                }
+                else
+                {
+                    
+                    if(QbitsGates.tempNumberOfGateAreas == 0)
+                    {
+                        if(finished)
+                            Qbit.disableQbitSameRowAreas();
+                        finished = false;
+                        Qbit.showQbitAreas();
+                        SharedStateSwitch.enableDisableQubitsAcceptGatesButton(true);
+                    }
+                    else
+                    {
+                        finished = true;
+                        Qbit.enableQbitSameRowAreas();
+                        SharedStateSwitch.enableDisableQubitsAcceptGatesButton(false);
+                    }
+                    //TODO:showonly from same row
+                }
+             
                 createAdditionalSpace();
                 removeAdditionalSpace();
             }

@@ -32,6 +32,7 @@ namespace QuantomCOMP
             //SharedStateSwitch.enableDisableMenu(true);
             SharedStateSwitch.enableDisableToggleMenuButton(true);
             SharedStateSwitch.enableDisablePositioning(false);
+            SharedStateSwitch.disableAllAreaGatesButtons();
 
             if (worldObject == WorldObject.EnvironmentObject.Board)
                 ConfirmPositionOfBoardEvent();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -51,15 +52,36 @@ namespace QuantomCOMP
         }
 
         private void enablePositioning(WorldObject.Gates wGate)
-        {
+        {     
             gate = wGate;
-            Gestures.gate = gate;
+            checkNumberOfGatesAreas();
             enableGatePositioning = true;
+
             setTitle();
             SharedStateSwitch.enableDisableMenu(false);
             SharedStateSwitch.enableDisableToggleMenuButton(false);
+            SharedStateSwitch.enableDisableQubitsAcceptGatesButton(true);
             SharedStateSwitch.enableDisableGatePositioning(true);
 
+        }
+
+        private void checkNumberOfGatesAreas()
+        {
+            Gestures.gate = gate;
+            if (gate == WorldObject.Gates.CNotgate)
+            {
+                QbitsGates.numberOfGateAreas = 2;
+                QbitsGates.buildingOnMultipleGatesAreas = true;
+            }else if(gate == WorldObject.Gates.Toffoligate)
+            {
+                QbitsGates.numberOfGateAreas = 3;
+                QbitsGates.buildingOnMultipleGatesAreas = true;
+            }
+            else
+            {
+                QbitsGates.numberOfGateAreas = 1;
+                QbitsGates.buildingOnMultipleGatesAreas = false;
+            }             
         }
 
         private void setTitle()

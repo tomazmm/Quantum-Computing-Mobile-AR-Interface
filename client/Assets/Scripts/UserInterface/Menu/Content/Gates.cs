@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace QuantomCOMP
@@ -12,6 +13,7 @@ namespace QuantomCOMP
             nameOfSection = Section.Gates;
             subscribeToSectionEvent();
             gameObject.SetActive(false);
+            SharedStateSwitch.disableAllAreaGatesButtons();
         }
 
         public void HGate()
@@ -22,6 +24,28 @@ namespace QuantomCOMP
         public void NotGate()
         {
             selectWorldObjectGate(WorldObject.Gates.Notgate);
+        }
+
+        public void CNotGate()
+        {
+            selectWorldObjectGate(WorldObject.Gates.CNotgate);
+        }
+
+        public void ToffoliGate()
+        {
+            selectWorldObjectGate(WorldObject.Gates.Toffoligate);
+        }
+
+        private void Update()
+        {
+            if(QbitsBoard.listOfQbits.Count() != 0)
+            {
+                SharedStateSwitch.enableOneAreaGatesButtons();
+                if (QbitsBoard.listOfQbits.Count() == 2)
+                    SharedStateSwitch.enableTwoAreaGatesButtons();
+                if (QbitsBoard.listOfQbits.Count() >= 3)
+                    SharedStateSwitch.enableThreeAreaGatesButtons();
+            }
         }
     }
 }
