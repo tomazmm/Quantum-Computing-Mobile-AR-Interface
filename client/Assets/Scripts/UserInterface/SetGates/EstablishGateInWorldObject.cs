@@ -45,7 +45,7 @@ namespace QuantomCOMP
             Qbit.deleteUnconfirmedGates();
             
             var qasm = Interpreter.boardToQasm();
-            ApiConnector.runCircuit();
+            ApiConnector.runCircuit(qasm);
 
         }
 
