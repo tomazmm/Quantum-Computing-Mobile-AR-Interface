@@ -14,8 +14,8 @@ namespace QuantomCOMP
         {
             // Adds the necessary prolog code to the QASM file/string
             var qasm = QasmProlog;
-            qasm += $"qreg q[{QbitsBoard.listOfQbits.Count}]\n";
-            qasm += $"creg q[{QbitsBoard.listOfQbits.Count}]\n";
+            qasm += $"qreg q[{QbitsBoard.listOfQbits.Count}];\n";
+            qasm += $"creg c[{QbitsBoard.listOfQbits.Count}];\n \n";
             
             // Iterate the gates on the board and translates it to the corresponding QASM code
             for (int i = 0; i < QbitsBoard.listOfQbits.Count; i++)
