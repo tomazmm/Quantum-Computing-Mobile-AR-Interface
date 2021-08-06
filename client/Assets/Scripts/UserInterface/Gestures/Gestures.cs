@@ -27,10 +27,8 @@ namespace QuantomCOMP
             {
                 Ray raycast_m = camera.ScreenPointToRay(Input.mousePosition);
                 RaycastHit raycastHit_m;
-                //Debug.Log(raycast_m.direction.x);
                 if (Physics.Raycast(raycast_m, out raycastHit_m))
                 {
-                    //Debug.Log(raycastHit_m.collider.name);
                     if(raycastHit_m.collider.name.Contains("SphereArea"))
                     {
                         //Debug.Log("SphereArea clicked");
@@ -44,18 +42,15 @@ namespace QuantomCOMP
                         //Debug.Log("gate clicked");
                         selectedArea = raycastHit_m.collider.gameObject;
                         if (EstablishGateInWorldObject.enableGatePositioning)
-                        {
-                            //Debug.Log(selectedArea.name + "  " + gate);
+                        {                          
                             if (selectedArea.name.Contains(gate.ToString()) && !selectedArea.name.Contains(WorldObject.Gates.CNotgate.ToString()) && !selectedArea.name.Contains(WorldObject.Gates.Toffoligate.ToString()))
                                 RemoveGateEvent(selectedArea, gate);
                             else
                                 SwitchGateEvent(selectedArea, gate);
-                        }
-                            
+                        }                       
                     }
 
-
-
+                    //TODO: check if line between areas is clicked (remove, switch)
 
                 }
             }

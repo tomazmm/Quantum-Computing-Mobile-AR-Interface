@@ -32,7 +32,6 @@ namespace QuantomCOMP
         public delegate void SetPositionToWObject(WorldObject.EnvironmentObject wObject);
         public static event SetPositionToWObject OnSelectedWorldObjectEvent;
 
-        //TODO: append eventlistener
         public delegate void SetPositionToWObjectGates(WorldObject.Gates wObject);
         public static event SetPositionToWObjectGates OnSelectedWorldObjectGatesEvent;
 

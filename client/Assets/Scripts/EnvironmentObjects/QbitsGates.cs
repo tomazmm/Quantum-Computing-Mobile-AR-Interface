@@ -36,7 +36,6 @@ namespace QuantomCOMP
 
         private void switching(GameObject _gateArea, WorldObject.Gates gate)
         {
-            //TODO: ignore if clicked on the same gate as main
             if (isTheSameGate(_gateArea))
                 return;
 
@@ -119,7 +118,7 @@ namespace QuantomCOMP
                     qbitArea.isConfirmed = true;
                     if(qbitArea.connectedGateArea != null)
                         qbitArea.connectedGateArea.isConfirmed = true;
-                    qbitArea.qbitGate.GetComponent<MeshRenderer>().material = Resources.Load(_gate.name+"conf", typeof(Material)) as Material;               
+                    qbitArea.qbitGate.GetComponent<MeshRenderer>().material = Resources.Load(qbitArea.qbitGate.name+"conf", typeof(Material)) as Material;               
                 }
             }
             gates.Clear();
@@ -149,8 +148,6 @@ namespace QuantomCOMP
 
         private void positionGate()
         {
-            //Debug.Log(QbitsBoard.listOfQbits[0].areas[1].qbitGate);
-            //TODO: build gates with more qbits at once
             GameObject gate;
 
             if(tempNumberOfGateAreas == 0)
@@ -176,12 +173,12 @@ namespace QuantomCOMP
             else
             {                  
                 gate = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                gate.name = _gate.ToString()+"add"+tempNumberOfGateAreas;
+                gate.name = _gate.ToString()+"add"/*+tempNumberOfGateAreas*/;
                 gate.transform.parent = gateArea.transform;
                 gate.transform.localScale = new Vector3(1.8f, 1.8f, 1.8f);
                 gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 gate.transform.localPosition = new Vector3(0, 0, 0);
-                //gate.GetComponent<MeshRenderer>().material = Resources.Load(EstablishGateInWorldObject.gate.ToString(), typeof(Material)) as Material;
+                gate.GetComponent<MeshRenderer>().material = Resources.Load(EstablishGateInWorldObject.gate.ToString() + "add", typeof(Material)) as Material;
                 var parent = gateArea.transform.parent;
                 var positionInList = parent.name.Substring(4);
                 var positionOfArea = gateArea.name.Substring(10);
@@ -190,7 +187,6 @@ namespace QuantomCOMP
 
                 tempNumberOfGateAreas++;
 
-                //TODO: Set all gates that are between gates in row to the mainArea;
                 connectManyAreasToMainGate(int.Parse(positionInList), int.Parse(positionOfArea) - 1);
 
                 gates.Add(gate);
@@ -221,6 +217,7 @@ namespace QuantomCOMP
                     }
                     QbitsBoard.listOfQbits[x].areas[positionOfArea].connectedGateArea = mainArea;
                 }
+                createLine(QbitsBoard.listOfQbits[positionInList].areas[positionOfArea], 1);
             }
             else
             {
@@ -238,9 +235,20 @@ namespace QuantomCOMP
                     }
                     QbitsBoard.listOfQbits[x].areas[positionOfArea].connectedGateArea = mainArea;
                 }
-            }
-            //TODO: create a line between those areas
-            //createLine();
+                createLine(QbitsBoard.listOfQbits[positionInList].areas[positionOfArea], -1);
+            }           
+        }
+
+        private void createLine(QbitArea additionalGate, int reverse)
+        {
+            float distance = Vector3.Distance(additionalGate.qbitGate.transform.position, mainArea.qbitGate.transform.position) * 10;
+
+            var line = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            line.name = "lineto"+_gate.ToString() + "add" + tempNumberOfGateAreas;
+            line.transform.parent = mainArea.qbitGate.gameObject.transform;
+            line.transform.localScale = new Vector3(0.2f, distance + distance/10, 0.1f);
+            line.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            line.transform.localPosition = new Vector3(0, reverse *(-distance/2 - distance/20), 0);
         }
 
         private void resetNumberOfGateAreas()

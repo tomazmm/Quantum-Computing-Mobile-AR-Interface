@@ -13,8 +13,6 @@ namespace QuantomCOMP
         public bool isConfirmed;
         public GameObject qbitArea;
         public GameObject qbitGate;
-        //TODO: more than one position
-        // needs to check if between connected areas
         public QbitArea connectedGateArea;
     }
 
@@ -34,14 +32,35 @@ namespace QuantomCOMP
 
         public static void showQbitAreas()
         {
-            foreach (Qbit _qbit in QbitsBoard.listOfQbits)
+            List<int> maxNumberOfAreas = new List<int>();
+
+            for(int y = 0; y < QbitsBoard.listOfQbits.Count; y++)
             {
-                foreach (QbitArea _qbitArea in _qbit.areas)
+                var _qbit = QbitsBoard.listOfQbits[y];
+                var lastGate = 1;
+                for(int x = 0; x < _qbit.areas.Count(); x++)
                 {
-                    if (_qbitArea.qbitGate == null && _qbitArea.connectedGateArea == null)
+                    
+                    if (_qbit.areas[x].qbitGate != null || _qbit.areas[x].connectedGateArea != null)
                     {
-                        _qbitArea.qbitArea.SetActive(true);
-                        break;
+                        //Debug.Log(x + 2);
+                        if(lastGate <= (x + 2))
+                            lastGate = (x + 2);
+                    }
+                }
+                //Debug.Log(lastGate);
+                maxNumberOfAreas.Add(lastGate);
+            }
+            //one additional for the area free row
+
+            for (int y = 0; y < QbitsBoard.listOfQbits.Count; y++)
+            {
+                var _qbit = QbitsBoard.listOfQbits[y];
+                for (int x = 0; x < maxNumberOfAreas[y]; x++)
+                {
+                    if (_qbit.areas[x].qbitGate == null && _qbit.areas[x].connectedGateArea == null)
+                    {
+                        _qbit.areas[x].qbitArea.SetActive(true);
                     }
                 }
             }
@@ -86,17 +105,6 @@ namespace QuantomCOMP
                     additionalSpaceRequired = true;
                     break;
                 }
-                //foreach (QbitArea _qbitArea in _qbit.areas)
-                //{
-                //    if (_qbitArea.qbitGate == null)
-                //    {
-                //        additionalSpaceRequired = false;
-                //    }
-                //    else
-                //        additionalSpaceRequired = true;                     
-                //}
-                //if (additionalSpaceRequired)
-                //    break;
             }
             return additionalSpaceRequired;
         }
@@ -191,6 +199,40 @@ namespace QuantomCOMP
                         _qbitArea.qbitArea.SetActive(true);
                     else
                         _qbitArea.qbitArea.SetActive(false);
+                }
+            }
+        }
+
+        public static void showAllForQbitAreas()
+        {
+            var maxNumberOfAreas = 0;
+
+            foreach (Qbit _qbit in QbitsBoard.listOfQbits)
+            {
+                var tempNumberOfGates = 0;
+                foreach (QbitArea _qbitArea in _qbit.areas)
+                {
+                    if (_qbitArea.qbitGate != null || _qbitArea.connectedGateArea != null)
+                    {
+                        tempNumberOfGates++;
+                    }                     
+                }
+                if (maxNumberOfAreas <= tempNumberOfGates)
+                {
+                    maxNumberOfAreas = tempNumberOfGates;
+                }
+            }
+            //one additional for the area free row
+            maxNumberOfAreas++;
+
+            foreach (Qbit _qbit in QbitsBoard.listOfQbits)
+            {
+                for(int x = 0; x < maxNumberOfAreas; x++)
+                {
+                    if (_qbit.areas[x].qbitGate == null && _qbit.areas[x].connectedGateArea == null)
+                    {
+                        _qbit.areas[x].qbitArea.SetActive(true);
+                    }
                 }
             }
         }
@@ -388,7 +430,9 @@ namespace QuantomCOMP
         {
             //TODO: add if for remove gates
             if(EstablishGateInWorldObject.enableGatePositioning){
-                if(!QbitsGates.buildingOnMultipleGatesAreas)
+                createAdditionalSpace();
+                removeAdditionalSpace();
+                if (!QbitsGates.buildingOnMultipleGatesAreas)
                 {
                     Qbit.disableQbitSameRowAreas();
                     Qbit.showQbitAreas();
@@ -401,7 +445,7 @@ namespace QuantomCOMP
                         if(finished)
                             Qbit.disableQbitSameRowAreas();
                         finished = false;
-                        Qbit.showQbitAreas();
+                        Qbit.showAllForQbitAreas();
                         SharedStateSwitch.enableDisableQubitsAcceptGatesButton(true);
                     }
                     else
@@ -410,11 +454,7 @@ namespace QuantomCOMP
                         Qbit.enableQbitSameRowAreas();
                         SharedStateSwitch.enableDisableQubitsAcceptGatesButton(false);
                     }
-                    //TODO:showonly from same row
-                }
-             
-                createAdditionalSpace();
-                removeAdditionalSpace();
+                }                          
             }
             else
             {
