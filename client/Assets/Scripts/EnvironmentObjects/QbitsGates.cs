@@ -36,7 +36,6 @@ namespace QuantomCOMP
 
         private void switching(GameObject _gateArea, WorldObject.Gates gate)
         {
-            //Debug.Log("Switch");
             //TODO: ignore if clicked on the same gate as main
             if (isTheSameGate(_gateArea))
                 return;
@@ -62,7 +61,6 @@ namespace QuantomCOMP
 
         private void removing(GameObject _gateArea, WorldObject.Gates gate)
         {
-            //Debug.Log("Remove");
             QbitArea qbitArea = Qbit.getQbitArea(_gateArea);
             if (!qbitArea.isConfirmed || switchState)
             {
@@ -70,9 +68,7 @@ namespace QuantomCOMP
                 GameObject.Destroy(qbitArea.qbitGate);
                 var parent = _gateArea.transform.parent.transform.parent;
                 var positionInList = parent.name.Substring(4);
-                //Debug.Log(_gateArea.name);
                 var positionOfArea = _gateArea.transform.parent.name.Substring(10);
-                //Debug.Log(positionInList + "  " + positionOfArea);
                 QbitArea mainQbitArea = QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1].connectedGateArea;
                 if (mainQbitArea == null)
                     mainQbitArea = QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1];
@@ -91,7 +87,7 @@ namespace QuantomCOMP
             {
                 if(_qbit.areas[position].connectedGateArea == mainQbitArea || _qbit.areas[position] == mainQbitArea)
                 {
-                    if(_qbit.areas[position].qbitGate != null)
+                    if (_qbit.areas[position].qbitGate != null)
                         GameObject.Destroy(_qbit.areas[position].qbitGate);
                     gates.Remove(_qbit.areas[position].qbitGate);
                     _qbit.areas[position].qbitGate = null;
@@ -213,10 +209,15 @@ namespace QuantomCOMP
                 for (x = positionOfMainInList + 1; x < positionInList; x++)
                 {
                     
-                    if(QbitsBoard.listOfQbits[x].areas[positionOfArea].qbitGate != null && QbitsBoard.listOfQbits[x].areas[positionOfArea].connectedGateArea != mainArea)
+                    if(QbitsBoard.listOfQbits[x].areas[positionOfArea].qbitGate != null && 
+                        QbitsBoard.listOfQbits[x].areas[positionOfArea].connectedGateArea != mainArea)
                     {
-                        GameObject.Destroy(QbitsBoard.listOfQbits[x].areas[positionOfArea].qbitGate);
-                        QbitsBoard.listOfQbits[x].areas[positionOfArea].qbitGate = null;
+                        //GameObject.Destroy(QbitsBoard.listOfQbits[x].areas[positionOfArea].qbitGate);
+                        //QbitsBoard.listOfQbits[x].areas[positionOfArea].qbitGate = null;
+                        QbitArea mainQbitArea = QbitsBoard.listOfQbits[x].areas[positionOfArea].connectedGateArea;
+                        if (mainQbitArea == null)
+                            mainQbitArea = QbitsBoard.listOfQbits[x].areas[positionOfArea];
+                        removeAllConnectedAreas(positionOfArea, mainQbitArea);
                     }
                     QbitsBoard.listOfQbits[x].areas[positionOfArea].connectedGateArea = mainArea;
                 }
@@ -225,10 +226,15 @@ namespace QuantomCOMP
             {
                 for (x = positionInList + 1; x < positionOfMainInList; x++)
                 {                   
-                    if (QbitsBoard.listOfQbits[x].areas[positionOfArea].qbitGate != null && QbitsBoard.listOfQbits[x].areas[positionOfArea].connectedGateArea != mainArea)
+                    if (QbitsBoard.listOfQbits[x].areas[positionOfArea].qbitGate != null && 
+                        QbitsBoard.listOfQbits[x].areas[positionOfArea].connectedGateArea != mainArea)
                     {
-                        GameObject.Destroy(QbitsBoard.listOfQbits[x].areas[positionOfArea].qbitGate);
-                        QbitsBoard.listOfQbits[x].areas[positionOfArea].qbitGate = null;
+                        //GameObject.Destroy(QbitsBoard.listOfQbits[x].areas[positionOfArea].qbitGate);
+                        //QbitsBoard.listOfQbits[x].areas[positionOfArea].qbitGate = null;
+                        QbitArea mainQbitArea = QbitsBoard.listOfQbits[x].areas[positionOfArea].connectedGateArea;
+                        if (mainQbitArea == null)
+                            mainQbitArea = QbitsBoard.listOfQbits[x].areas[positionOfArea];
+                        removeAllConnectedAreas(positionOfArea, mainQbitArea);
                     }
                     QbitsBoard.listOfQbits[x].areas[positionOfArea].connectedGateArea = mainArea;
                 }
