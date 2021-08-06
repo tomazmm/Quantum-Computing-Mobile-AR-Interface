@@ -27,12 +27,21 @@ namespace QuantomCOMP
                     
                     if (gate.qbitGate.name == WorldObject.Gates.Hgate.ToString())
                     {
-                        qasm += $"h q[{i}];";
+                        qasm += $"h q[{i}]; \n";
                     }
                     else if (gate.qbitGate.name == WorldObject.Gates.Notgate.ToString())
                     {
-                        qasm += $"x q[{i}];";
+                        qasm += $"x q[{i}]; \n";
                     }
+                    else if (gate.qbitGate.name == WorldObject.Gates.CNotgate.ToString())
+                    {
+                        
+                    }
+                    else if (gate.qbitGate.name == WorldObject.Gates.Measurementgate.ToString())
+                    {
+                        qasm += $"measure q[{i}] -> c[{i}];";
+                    }
+                    
                 }   
             }
             

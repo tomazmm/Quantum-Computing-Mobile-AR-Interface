@@ -14,18 +14,20 @@ namespace QuantomCOMP
         public static async void runCircuit(string qasm)
         {
             byte[] byteArray = Encoding.UTF8.GetBytes(qasm);
-            
             var uri = APIBaseUri + "circuit";
             
+            // Prepare a HTTP Post request
             var request = new UnityWebRequest(uri);
             request.method = "POST";
             request.uploadHandler = new UploadHandlerRaw(byteArray);
             request.downloadHandler = new DownloadHandlerBuffer();
             
+            // Don't block main thread
             var operation = request.SendWebRequest();
             while (!operation.isDone)
                 await Task.Yield();
             
+            // Resolve result
             if (request.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError(request.error);
