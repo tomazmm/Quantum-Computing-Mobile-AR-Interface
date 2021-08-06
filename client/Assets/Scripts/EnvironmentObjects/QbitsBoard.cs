@@ -7,6 +7,11 @@ using UnityEngine.UI;
 
 namespace QuantomCOMP
 {
+    public class QbitAdditionalAreaPosition
+    {
+        public int qbit;
+        public int area;
+    }
 
     public class QbitArea
     {
@@ -14,6 +19,8 @@ namespace QuantomCOMP
         public GameObject qbitArea;
         public GameObject qbitGate;
         public QbitArea connectedGateArea;
+        public bool isMainArea;
+        public List<QbitAdditionalAreaPosition> positionsOfConnectedQbits;
     }
 
     public class Qbit
@@ -43,12 +50,10 @@ namespace QuantomCOMP
                     
                     if (_qbit.areas[x].qbitGate != null || _qbit.areas[x].connectedGateArea != null)
                     {
-                        //Debug.Log(x + 2);
                         if(lastGate <= (x + 2))
                             lastGate = (x + 2);
                     }
                 }
-                //Debug.Log(lastGate);
                 maxNumberOfAreas.Add(lastGate);
             }
             //one additional for the area free row
@@ -149,6 +154,8 @@ namespace QuantomCOMP
                 qbitArea.isConfirmed = false;
                 qbitArea.qbitArea = sphere;
                 qbitArea.qbitGate = null;
+                qbitArea.isMainArea = false;
+                qbitArea.positionsOfConnectedQbits = new List<QbitAdditionalAreaPosition>();
                 qbitArea.connectedGateArea = null;
 
                 _qbit.line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(_qbit.line.GetComponent<LineRenderer>().GetPosition(1).x + position, 0, 0));
@@ -385,6 +392,8 @@ namespace QuantomCOMP
                 qbitArea.isConfirmed = false;
                 qbitArea.qbitArea = sphere;
                 qbitArea.qbitGate = null;
+                qbitArea.isMainArea = false;
+                qbitArea.positionsOfConnectedQbits = new List<QbitAdditionalAreaPosition>();
                 qbitObject.areas.Add(qbitArea);
                 //Debug.Log(qbitArea.qbitGate);
             }
