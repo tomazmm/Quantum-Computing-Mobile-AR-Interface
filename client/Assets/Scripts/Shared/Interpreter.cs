@@ -18,34 +18,34 @@ namespace QuantomCOMP
             qasm += $"creg c[{QbitsBoard.listOfQbits.Count}];\n \n";
             
             // Iterate the gates on the board and translates it to the corresponding QASM code
-            for (int i = 0; i < QbitsBoard.listOfQbits.Count; i++)
+            for (var i = 0; i < QbitsBoard.listOfQbits.First().areas.Count; i++) 
             {
-                var qbit = QbitsBoard.listOfQbits[i];
-                foreach (var gate in qbit.areas)
+                for (var j = 0; j < QbitsBoard.listOfQbits.Count; j++)
                 {
+                    var gate = QbitsBoard.listOfQbits[j].areas[i];
+                    
                     if (!gate.qbitGate) break;
                     
                     if (gate.qbitGate.name == WorldObject.Gates.Hgate.ToString())
                     {
-                        qasm += $"h q[{i}];\n";
+                        qasm += $"h q[{j}];\n";
                     }
                     else if (gate.qbitGate.name == WorldObject.Gates.Notgate.ToString())
                     {
-                        qasm += $"x q[{i}];\n";
+                        qasm += $"x q[{j}];\n";
                     }
                     else if (gate.qbitGate.name == WorldObject.Gates.CNotgate.ToString())
                     {
                         if(gate.isMainArea)
                         {
-                            qasm += $"cx q[{gate.positionsOfConnectedQbits.First().qbit}],q[{i}];\n";
+                            qasm += $"cx q[{gate.positionsOfConnectedQbits.First().qbit}],q[{j}];\n";
                         }
                     }
                     else if (gate.qbitGate.name == WorldObject.Gates.Measurementgate.ToString())
                     {
-                        qasm += $"measure q[{i}] -> c[{i}];\n";
+                        qasm += $"measure q[{j}] -> c[{j}];\n";
                     }
-                    
-                }   
+                }
             }
             
             return qasm;
