@@ -20,10 +20,11 @@ namespace QuantomCOMP
             Hgate,
             Notgate,
             CNotgate,
-            Toffoligate
+            Toffoligate,
+            Measurementgate
         }
         public static List<string> listOfWObjects = new List<string>() { "Board", "Sphere" };
-        public static List<string> listOfGates = new List<string>(){"None","H gate", "NOT gate", "CNOT gate", "Toffoli gate"};
+        public static List<string> listOfGates = new List<string>(){"None","H gate", "NOT gate", "CNOT gate", "Toffoli gate", "Measurement" };
     }
 
 

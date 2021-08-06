@@ -198,7 +198,7 @@ namespace QuantomCOMP
         {
             var mainGateInList = QbitsBoard.listOfQbits.FirstOrDefault(x => x.areas.Any(y => y == mainArea));
             var positionOfMainInList = int.Parse(mainGateInList.qbit.name.Substring(4));
-            int x, y;
+            int x;
             //Debug.Log(positionInList + "   " + positionOfMainInList);
             if (positionInList > positionOfMainInList)
             {

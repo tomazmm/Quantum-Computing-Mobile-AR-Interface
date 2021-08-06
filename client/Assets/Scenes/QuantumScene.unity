@@ -3785,6 +3785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 849f49731a087f640a28b369daceec24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finished: 0
 --- !u!114 &963746933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4753,7 +4754,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Toffoli gate
+  m_Text: Measurement
 --- !u!222 &1198657632
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4832,7 +4833,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Toffoli gate
+  m_Text: Measurement
 --- !u!222 &1208718257
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4854,7 +4855,7 @@ GameObject:
   - component: {fileID: 1250630265}
   - component: {fileID: 1250630264}
   m_Layer: 5
-  m_Name: ToffoliGate
+  m_Name: Measurement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4926,7 +4927,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1864802550}
         m_TargetAssemblyTypeName: QuantomCOMP.Gates, Assembly-CSharp
-        m_MethodName: ToffoliGate
+        m_MethodName: Measurement
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10679,7 +10680,7 @@ GameObject:
   - component: {fileID: 2142229436}
   - component: {fileID: 2142229435}
   m_Layer: 5
-  m_Name: ToffoliGate
+  m_Name: Measurement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10751,7 +10752,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 664377136}
         m_TargetAssemblyTypeName: QuantomCOMP.Gates, Assembly-CSharp
-        m_MethodName: ToffoliGate
+        m_MethodName: Measurement
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

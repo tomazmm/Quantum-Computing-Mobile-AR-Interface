@@ -36,6 +36,11 @@ namespace QuantomCOMP
             selectWorldObjectGate(WorldObject.Gates.Toffoligate);
         }
 
+        public void Measurement()
+        {
+            selectWorldObjectGate(WorldObject.Gates.Measurementgate);
+        }
+
         private void Update()
         {
             if(QbitsBoard.listOfQbits.Count() != 0)
