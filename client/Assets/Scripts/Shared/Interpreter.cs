@@ -24,7 +24,7 @@ namespace QuantomCOMP
                 {
                     var gate = QbitsBoard.listOfQbits[j].areas[i];
                     
-                    if (!gate.qbitGate) break;
+                    if (!gate.qbitGate) continue;
                     
                     if (gate.qbitGate.name == WorldObject.Gates.Hgate.ToString())
                     {
