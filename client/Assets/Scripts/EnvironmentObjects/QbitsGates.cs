@@ -73,6 +73,8 @@ namespace QuantomCOMP
                     mainQbitArea = QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1];
                 removeAllConnectedAreas(int.Parse(positionOfArea) - 1, mainQbitArea);
                 QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1].qbitGate = null;
+                QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1].isMainArea = false;
+                QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1].positionsOfConnectedQbits.Clear();
             }
 
             // hide point if gate is deleted
@@ -92,6 +94,8 @@ namespace QuantomCOMP
                     _qbit.areas[position].qbitGate = null;
                     _qbit.areas[position].isConfirmed = false;
                     _qbit.areas[position].connectedGateArea = null;
+                    _qbit.areas[position].isMainArea = false;
+                    _qbit.areas[position].positionsOfConnectedQbits.Clear();
                 }
             }
         }
@@ -106,6 +110,8 @@ namespace QuantomCOMP
                     findConnectedToTheGate(qbitArea);
                     qbitArea.qbitGate = null;
                     qbitArea.connectedGateArea = null;
+                    qbitArea.isMainArea = false;
+                    qbitArea.positionsOfConnectedQbits.Clear();
                     tempNumberOfGateAreas = 0;
                     numberOfGateAreas = 0;
                 }           
@@ -163,6 +169,7 @@ namespace QuantomCOMP
                 var positionInList = parent.name.Substring(4);
                 var positionOfArea = gateArea.name.Substring(10);
                 QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1].qbitGate = gate;
+                QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1].isMainArea = true;
                 mainArea = QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1];
 
                 tempNumberOfGateAreas++;
@@ -183,6 +190,10 @@ namespace QuantomCOMP
                 var positionInList = parent.name.Substring(4);
                 var positionOfArea = gateArea.name.Substring(10);
                 QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1].qbitGate = gate;
+                QbitAdditionalAreaPosition additionalAreaPosition = new QbitAdditionalAreaPosition();
+                additionalAreaPosition.qbit = int.Parse(positionInList);
+                additionalAreaPosition.area = int.Parse(positionOfArea);
+                mainArea.positionsOfConnectedQbits.Add(additionalAreaPosition);
                 QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1].connectedGateArea = mainArea;
 
                 tempNumberOfGateAreas++;
