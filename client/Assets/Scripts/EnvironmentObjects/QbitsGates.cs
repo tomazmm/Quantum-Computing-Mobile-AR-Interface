@@ -260,6 +260,7 @@ namespace QuantomCOMP
             line.transform.localScale = new Vector3(0.2f, distance + distance/10, 0.1f);
             line.transform.localRotation = new Quaternion(0, 0, 0, 0);
             line.transform.localPosition = new Vector3(0, reverse *(-distance/2 - distance/20), 0);
+            line.GetComponent<MeshRenderer>().material = Resources.Load("Betweenline", typeof(Material)) as Material;
         }
 
         private void resetNumberOfGateAreas()

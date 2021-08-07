@@ -330,6 +330,8 @@ namespace QuantomCOMP
             qbitobject.qbit = qbit;
             qbitobject.line = line;
 
+            createNameTag("Qbit " + number, qbit);
+
             setAreasForGates(qbit, line, qbitobject);
 
 
@@ -338,12 +340,26 @@ namespace QuantomCOMP
 
         }
 
+        private void createNameTag(string name, GameObject qbit)
+        {
+            GameObject nameTag = new GameObject();
+            nameTag.transform.parent = qbit.transform;
+            nameTag.name = "NameTag";
+            var textMesh = nameTag.AddComponent<TextMesh>();
+            textMesh.text = name;
+            textMesh.anchor = TextAnchor.MiddleLeft;
+            nameTag.transform.localPosition = new Vector3(-0.18f, 0, 0);
+            nameTag.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            nameTag.transform.localScale = new Vector3(0.04f, 0.04f, 0.04f);      
+        }
+
         private void setQbitPosition(GameObject qbit, int number)
         {
             //qbit.transform.localPosition = new Vector3(0 - 0.5f, 0 + 0.5f - (number * ((float)1 / (numberBits + 1))), 0);
             qbit.transform.localPosition = new Vector3(0 - 0.5f, 0 + boardBackground.transform.localScale.y/2 - (number * (boardBackground.transform.localScale.y / (numberBits + 1))), 0);
             qbit.transform.localRotation = new Quaternion(0, 0, 0, 0);
             qbit.transform.localScale = new Vector3(1, 1, 1);
+        
         }
 
         private void setLineInBoard(GameObject line, int number)
@@ -432,7 +448,7 @@ namespace QuantomCOMP
             
         }
 
-        public bool finished = false;
+        public static bool finished = false;
 
         // Update is called once per frame
         void Update()
