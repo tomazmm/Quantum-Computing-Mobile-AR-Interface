@@ -158,10 +158,12 @@ namespace QuantomCOMP
                 qbitArea.positionsOfConnectedQbits = new List<QbitAdditionalAreaPosition>();
                 qbitArea.connectedGateArea = null;
 
-                _qbit.line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(_qbit.line.GetComponent<LineRenderer>().GetPosition(1).x + position, 0, 0));
+                _qbit.line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(_qbit.line.GetComponent<LineRenderer>().GetPosition(1).x + position, 0, 0));             
 
                 _qbit.areas.Add(qbitArea);
             }
+            GameObject.Find("ClassicalRegister").transform.Find("Line0").GetComponent<LineRenderer>().SetPosition(1, new Vector3(GameObject.Find("ClassicalRegister").transform.Find("Line0").GetComponent<LineRenderer>().GetPosition(1).x + position, 0, 0));
+            GameObject.Find("ClassicalRegister").transform.Find("Line1").GetComponent<LineRenderer>().SetPosition(1, new Vector3(GameObject.Find("ClassicalRegister").transform.Find("Line1").GetComponent<LineRenderer>().GetPosition(1).x + position, 0, 0));
         }
 
         public static void removeAdditionalSpaceAreas(float position)
@@ -171,6 +173,9 @@ namespace QuantomCOMP
                 _qbit.areas.Remove(_qbit.areas.Last());
                 _qbit.line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(_qbit.line.GetComponent<LineRenderer>().GetPosition(1).x - position, 0, 0));
             }
+
+            GameObject.Find("ClassicalRegister").transform.Find("Line0").GetComponent<LineRenderer>().SetPosition(1, new Vector3(GameObject.Find("ClassicalRegister").transform.Find("Line0").GetComponent<LineRenderer>().GetPosition(1).x - position, 0, 0));
+            GameObject.Find("ClassicalRegister").transform.Find("Line1").GetComponent<LineRenderer>().SetPosition(1, new Vector3(GameObject.Find("ClassicalRegister").transform.Find("Line1").GetComponent<LineRenderer>().GetPosition(1).x - position, 0, 0));
         }
 
         public static void shiftGates()
@@ -278,7 +283,11 @@ namespace QuantomCOMP
             setBoard();
            
             for (int x = 0; x < numberBits; x++)
-                createLines(x);            
+                createLine(x,"qbit");
+
+            //add line for classical register
+            createLine(numberBits, "ClassicalRegister");
+
         }
 
         private void setBoard()
@@ -293,7 +302,7 @@ namespace QuantomCOMP
 
         private void setBoardBackground(int v)
         {
-            boardHeight = boardConstant + (numberBits * boardConstant);
+            boardHeight = 2* boardConstant + (numberBits * boardConstant);
 
             boardBackground.transform.localPosition = new Vector3(0, 0, 0);
             boardBackground.transform.localRotation = new Quaternion(0, 0, 0, 0);
@@ -310,34 +319,53 @@ namespace QuantomCOMP
             listOfQbits.Clear();
         }
 
-        private void createLines(int number)
+        private void createLine(int number, string type)
         {
-            Qbit qbitobject = new Qbit();
+            
 
-            GameObject qbit = new GameObject("Qbit" + number);
-            qbit.transform.parent = this.gameObject.transform;
-            setQbitPosition(qbit, number+ 1);
-            GameObject line = new GameObject("Line");
-            line.transform.parent = qbit.gameObject.transform;
+            if (type.Contains("qbit")){
+                Qbit qbitobject = new Qbit();
+                GameObject qbit = new GameObject("Qbit" + number);
+                qbit.transform.parent = this.gameObject.transform;
+                setQbitPosition(qbit, number + 1);
+                GameObject line = new GameObject("Line");
+                line.transform.parent = qbit.gameObject.transform;
 
-            lineRenderer = line.AddComponent<LineRenderer>();
-            lineRenderer.useWorldSpace = false;
-            setLinePositions();
-            setLineWidth();
-            setLineMaterial();
-            setLineInBoard(line, number + 1);
+                lineRenderer = line.AddComponent<LineRenderer>();
+                lineRenderer.useWorldSpace = false;
+                setLinePositions();
+                setLineWidth();
+                setLineMaterial();
+                setLineInBoard(line, number + 1);
 
-            qbitobject.qbit = qbit;
-            qbitobject.line = line;
+                qbitobject.qbit = qbit;
+                qbitobject.line = line;
 
-            createNameTag("Qbit " + number, qbit);
+                createNameTag("Qbit " + number, qbit);
+                setAreasForGates(qbit, line, qbitobject);
 
-            setAreasForGates(qbit, line, qbitobject);
 
-
-            listOfQbits.Add(qbitobject);
-            //Debug.Log(listOfLines[0]);
-
+                listOfQbits.Add(qbitobject);
+            }
+            else
+            {
+                GameObject classicRegister = new GameObject(type);
+                classicRegister.transform.parent = this.gameObject.transform;
+                setQbitPosition(classicRegister, number + 1);
+                for(int x = 0; x < 2; x++)
+                {
+                    GameObject line = new GameObject("Line" +x);
+                    line.transform.parent = classicRegister.gameObject.transform;
+                    lineRenderer = line.AddComponent<LineRenderer>();
+                    lineRenderer.useWorldSpace = false;
+                    setLinePositions();
+                    setLineWidth();
+                    setLineMaterial();
+                    setTwoLineInBoard(line, x);
+                }              
+                createNameTag("C" + number, classicRegister);
+            }
+            
         }
 
         private void createNameTag(string name, GameObject qbit)
@@ -356,7 +384,7 @@ namespace QuantomCOMP
         private void setQbitPosition(GameObject qbit, int number)
         {
             //qbit.transform.localPosition = new Vector3(0 - 0.5f, 0 + 0.5f - (number * ((float)1 / (numberBits + 1))), 0);
-            qbit.transform.localPosition = new Vector3(0 - 0.5f, 0 + boardBackground.transform.localScale.y/2 - (number * (boardBackground.transform.localScale.y / (numberBits + 1))), 0);
+            qbit.transform.localPosition = new Vector3(0 - 0.5f, 0 + boardBackground.transform.localScale.y/2 - (number * (boardBackground.transform.localScale.y / (numberBits + 2))), 0);
             qbit.transform.localRotation = new Quaternion(0, 0, 0, 0);
             qbit.transform.localScale = new Vector3(1, 1, 1);
         
@@ -365,6 +393,16 @@ namespace QuantomCOMP
         private void setLineInBoard(GameObject line, int number)
         {
             line.transform.localPosition = new Vector3(0,  0, 0);
+            line.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            line.transform.localScale = new Vector3(1, 0, 0);
+        }
+
+        private void setTwoLineInBoard(GameObject line, int number)
+        {
+            if(number == 0)
+                line.transform.localPosition = new Vector3(0, 0.02f, 0);
+            else
+                line.transform.localPosition = new Vector3(0,-0.02f, 0);
             line.transform.localRotation = new Quaternion(0, 0, 0, 0);
             line.transform.localScale = new Vector3(1, 0, 0);
         }

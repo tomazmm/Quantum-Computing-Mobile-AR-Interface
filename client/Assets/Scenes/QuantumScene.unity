@@ -10751,7 +10751,7 @@ GameObject:
   - component: {fileID: 2142229436}
   - component: {fileID: 2142229435}
   m_Layer: 5
-  m_Name: ToffoliGate
+  m_Name: Measurement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10823,7 +10823,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 664377136}
         m_TargetAssemblyTypeName: QuantomCOMP.Gates, Assembly-CSharp
-        m_MethodName: ToffoliGate
+        m_MethodName: Measurement
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
