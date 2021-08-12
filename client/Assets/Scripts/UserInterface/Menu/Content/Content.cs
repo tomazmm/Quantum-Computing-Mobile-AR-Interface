@@ -48,7 +48,12 @@ namespace QuantomCOMP
         {
             if (section.Equals(nameOfSection))
             {
-                foreach (Transform child in GameObject.Find("Content").transform)
+                foreach (Transform child in GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("Menu").transform.Find("Content").transform)
+                {
+                    if (child.name.Contains(objectName))
+                        child.gameObject.SetActive(true);
+                }
+                foreach (Transform child in GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("Menu").transform.Find("Content").transform)
                 {
                     if (child.name.Contains(objectName))
                         child.gameObject.SetActive(true);
@@ -56,7 +61,12 @@ namespace QuantomCOMP
             }
             else
             {
-                foreach (Transform child in GameObject.Find("Content").transform)
+                foreach (Transform child in GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("Menu").transform.Find("Content").transform)
+                {
+                    if (child.name.Contains(objectName))
+                        child.gameObject.SetActive(false);
+                }
+                foreach (Transform child in GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("Menu").transform.Find("Content").transform)
                 {
                     if (child.name.Contains(objectName))
                         child.gameObject.SetActive(false);

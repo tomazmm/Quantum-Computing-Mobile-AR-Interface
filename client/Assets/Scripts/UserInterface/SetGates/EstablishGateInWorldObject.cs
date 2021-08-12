@@ -14,12 +14,12 @@ namespace QuantomCOMP
         public static event EstablishPositionGate ConfirmPositionOfGateEvent;
 
         public static bool enableGatePositioning;
-        private GameObject GateRepresentator;
+        private Transform GateRepresentator;
  
         void Start()
         {
             enableGatePositioning = false;
-            GateRepresentator = GameObject.Find("GateRepresentation");
+            GateRepresentator = GameObject.Find("CanvasForGateRepresentation").transform;
             subscribeToEvent();
         }
 
@@ -29,8 +29,7 @@ namespace QuantomCOMP
             gate = WorldObject.Gates.None;
             Gestures.gate = gate;
             ConfirmPositionOfGateEvent(false);
-            SharedStateSwitch.enableDisableMenu(true);
-            SharedStateSwitch.enableDisableToggleMenuButton(true);
+            //SharedStateSwitch.enableDisableMenu(true);
             SharedStateSwitch.enableDisableGatePositioning(false);
             Qbit.deleteUnconfirmedGates();
             removeGatesFromRepresentator();
@@ -43,14 +42,10 @@ namespace QuantomCOMP
             Gestures.gate = gate;
             enableGatePositioning = false;
             ConfirmPositionOfGateEvent(true);
-            SharedStateSwitch.enableDisableToggleMenuButton(true);
             SharedStateSwitch.enableDisableGatePositioning(false);
+            //SharedStateSwitch.enableDisableContent(true);
             Qbit.deleteUnconfirmedGates();
             removeGatesFromRepresentator();
-            
-            var qasm = Interpreter.boardToQasm();
-            ApiConnector.runCircuit(qasm);
-
         }
 
         private void subscribeToEvent()
@@ -64,9 +59,10 @@ namespace QuantomCOMP
             checkNumberOfGatesAreas();
             enableGatePositioning = true;
 
-            setTitle();
-            SharedStateSwitch.enableDisableMenu(false);
-            SharedStateSwitch.enableDisableToggleMenuButton(false);
+            //SharedStateSwitch.enableDisableMenu(false);
+            //SharedStateSwitch.enableDisableContent(false);
+            //SharedStateSwitch.setAllButtonsInactive();
+            //Menu.isMenuActive = false;
             SharedStateSwitch.enableDisableQubitsAcceptGatesButton(true);
             SharedStateSwitch.enableDisableGatePositioning(true);
             addGatesToRepresentator();
@@ -74,21 +70,40 @@ namespace QuantomCOMP
 
         private void addGatesToRepresentator()
         {
+            removeGatesFromRepresentator();
             GameObject _gate;
             if (QbitsGates.numberOfGateAreas <= 1)
             {
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 _gate.name = gate.ToString() + "conf";
-                _gate.transform.parent = GateRepresentator.transform;
+                _gate.transform.parent = GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform;
                 _gate.transform.localPosition = new Vector3(0, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
                 _gate.GetComponent<MeshRenderer>().material = Resources.Load(_gate.name, typeof(Material)) as Material;
-            }else if(QbitsGates.numberOfGateAreas <= 2)
+
+                _gate = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                _gate.name = gate.ToString() + "conf";
+                _gate.transform.parent = GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform;
+                _gate.transform.localPosition = new Vector3(0, 0, 0);
+                _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                _gate.transform.localScale = new Vector3(90, 90, 90);
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load(_gate.name, typeof(Material)) as Material;
+
+            }
+            else if(QbitsGates.numberOfGateAreas <= 2)
             {
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 _gate.name = gate.ToString() + "conf";
-                _gate.transform.parent = GateRepresentator.transform;
+                _gate.transform.parent = GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform;
+                _gate.transform.localPosition = new Vector3(-60, 0, 0);
+                _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                _gate.transform.localScale = new Vector3(90, 90, 90);
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "conf", typeof(Material)) as Material;
+
+                _gate = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                _gate.name = gate.ToString() + "conf";
+                _gate.transform.parent = GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform;
                 _gate.transform.localPosition = new Vector3(-60, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
@@ -96,7 +111,15 @@ namespace QuantomCOMP
 
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 _gate.name = gate.ToString() + "addconf1";
-                _gate.transform.parent = GateRepresentator.transform;
+                _gate.transform.parent = GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform;
+                _gate.transform.localPosition = new Vector3(60, 0, 0);
+                _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                _gate.transform.localScale = new Vector3(90, 90, 90);
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
+
+                _gate = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                _gate.name = gate.ToString() + "addconf1";
+                _gate.transform.parent = GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform;
                 _gate.transform.localPosition = new Vector3(60, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
@@ -106,7 +129,7 @@ namespace QuantomCOMP
             {
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 _gate.name = gate.ToString() + "conf";
-                _gate.transform.parent = GateRepresentator.transform;
+                _gate.transform.parent = GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform;
                 _gate.transform.localPosition = new Vector3(-105, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
@@ -114,7 +137,7 @@ namespace QuantomCOMP
 
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 _gate.name = gate.ToString() + "addconf1";
-                _gate.transform.parent = GateRepresentator.transform;
+                _gate.transform.parent = GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform;
                 _gate.transform.localPosition = new Vector3(0, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
@@ -122,11 +145,36 @@ namespace QuantomCOMP
 
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 _gate.name = gate.ToString() + "addconf2";
-                _gate.transform.parent = GateRepresentator.transform;
+                _gate.transform.parent = GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform;
                 _gate.transform.localPosition = new Vector3(105, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
                 _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
+
+                _gate = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                _gate.name = gate.ToString() + "conf";
+                _gate.transform.parent = GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform;
+                _gate.transform.localPosition = new Vector3(-105, 0, 0);
+                _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                _gate.transform.localScale = new Vector3(90, 90, 90);
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "conf", typeof(Material)) as Material;
+
+                _gate = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                _gate.name = gate.ToString() + "addconf1";
+                _gate.transform.parent = GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform;
+                _gate.transform.localPosition = new Vector3(0, 0, 0);
+                _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                _gate.transform.localScale = new Vector3(90, 90, 90);
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
+
+                _gate = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                _gate.name = gate.ToString() + "addconf2";
+                _gate.transform.parent = GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform;
+                _gate.transform.localPosition = new Vector3(105, 0, 0);
+                _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                _gate.transform.localScale = new Vector3(90, 90, 90);
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
+
             }
             
         }
@@ -135,26 +183,37 @@ namespace QuantomCOMP
         {
             if(QbitsGates.tempNumberOfGateAreas == 1 && QbitsGates.buildingOnMultipleGatesAreas)
             {
-                GateRepresentator.transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString()+"hide", typeof(Material)) as Material;
-            }else if(QbitsGates.tempNumberOfGateAreas == 2)
+                GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString()+"hide", typeof(Material)) as Material;
+                GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "hide", typeof(Material)) as Material;
+            }
+            else if(QbitsGates.tempNumberOfGateAreas == 2)
             {
-                GateRepresentator.transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "add" + "hide", typeof(Material)) as Material;
+                GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "add" + "hide", typeof(Material)) as Material;
+                GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "add" + "hide", typeof(Material)) as Material;
             }
             else
             {
-                GateRepresentator.transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "conf", typeof(Material)) as Material;
+                //TODO: check if object isn't set
+                GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "conf", typeof(Material)) as Material;
+                GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "conf", typeof(Material)) as Material;
                 if(QbitsGates.numberOfGateAreas > 1)
                 {
-                    GateRepresentator.transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
+                    GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
+                    GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
                 }               
             }
         }
 
         private void removeGatesFromRepresentator()
         {
-            foreach(Transform gate in GateRepresentator.transform)
+            //Debug.Log(GateRepresentator.transform.Find("Portrait").transform);
+            foreach (Transform gate in GateRepresentator.transform.Find("Portrait").transform.Find("GateRepresentation").transform)
             {
-                Debug.Log(gate.name);
+                GameObject.Destroy(gate.gameObject);
+            }
+
+            foreach (Transform gate in GateRepresentator.transform.Find("Landscape").transform.Find("GateRepresentation").transform)
+            {
                 GameObject.Destroy(gate.gameObject);
             }
         }
@@ -178,18 +237,14 @@ namespace QuantomCOMP
             }             
         }
 
-        private void setTitle()
-        {
-            GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetGates").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set " + WorldObject.listOfGates[(int)gate];
-            GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetGates").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set " + WorldObject.listOfGates[(int)gate];     
-        }
 
         // Update is called once per frame
         void Update()
         {
             //TODO: if screen rotates move objects to another GateRepresentation
-            hideUsedGates();
-            GateRepresentator = GameObject.Find("GateRepresentation");
+            if (enableGatePositioning)
+                hideUsedGates();
+
         }
 
         

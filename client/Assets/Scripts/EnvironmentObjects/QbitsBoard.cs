@@ -287,7 +287,8 @@ namespace QuantomCOMP
 
             //add line for classical register
             createLine(numberBits, "ClassicalRegister");
-
+            Canvas.isBoardActive = true;
+            SharedStateSwitch.enableNavigationButtons();
         }
 
         private void setBoard()

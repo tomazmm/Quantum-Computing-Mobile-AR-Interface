@@ -14,6 +14,10 @@ namespace QuantomCOMP
     {
         public static bool toggleMenu;
         public static ScreenRotation screenState;
+
+        public static int section;
+        public static bool isMenuActive;
+        public static bool isBoardActive;
         private void setScreenState()
         {
             if (Screen.width <= Screen.height)
@@ -43,8 +47,14 @@ namespace QuantomCOMP
         private void Start()
         {
             SharedStateSwitch.enableDisablePositioning(false);
-            SharedStateSwitch.enableDisableToggleMenuButton(true);
-            SharedStateSwitch.enableDisableMenu(false);
+            SharedStateSwitch.enableDisableMenu(true);
+            SharedStateSwitch.enableDisableContent(false);
+            SharedStateSwitch.enableDisableBottomMenuNavigation(true);
+            SharedStateSwitch.disableNavigationButtons();
+            SharedStateSwitch.enableDisableNotification(false);
+            section = 0;
+            isMenuActive = false;
+            isBoardActive = false;
             //TODO: make async function for very begining, which will set board and sphere
             Content.Beginning();
             setScreenState();

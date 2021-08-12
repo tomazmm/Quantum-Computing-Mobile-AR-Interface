@@ -12,7 +12,7 @@ namespace QuantomCOMP
             objectName = "Gates";
             nameOfSection = Section.Gates;
             subscribeToSectionEvent();
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             SharedStateSwitch.disableAllAreaGatesButtons();
         }
 

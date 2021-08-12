@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,8 @@ namespace QuantomCOMP{
     {
         Environment,
         Gates,
-        Settings
+        Run,
+        None,
     }
 
     public class Menu : MonoBehaviour
@@ -19,45 +21,58 @@ namespace QuantomCOMP{
         public delegate void SelectSection(Section section);
         public static event SelectSection OnSelectedSectionEvent;
 
-        private int section;
-        private string top;
-
-        public void selectSection(int section)
-        {
-            this.section = section;
-            switch (this.section)
+        public void selectSection(int _section)
+        {         
+            if (!Canvas.isMenuActive)
             {
-                case 0:
-                    top = "Set Environment";
+                activateContent(true);
+            }
+            else if (Canvas.isMenuActive && _section == Canvas.section)
+            {
+                activateContent(false);
+            }
+            Canvas.section = _section;
+            SharedStateSwitch.setAllButtonsInactive();
+            switch (Canvas.section)
+            {
+                case 0:                  
+                    if(Canvas.isMenuActive)
+                        SharedStateSwitch.setButtonActive("SetEnvironmentTab");
                     OnSelectedSectionEvent(Section.Environment);
                     break;
                 case 1:
-                    top = "Gates";
-                    OnSelectedSectionEvent(Section.Gates);
+                    if (QbitsBoard.listOfQbits.Count() > 0)
+                    {
+                        if (Canvas.isMenuActive)
+                            SharedStateSwitch.setButtonActive("GatesTab");
+                        OnSelectedSectionEvent(Section.Gates);
+                    }
+                    else
+                        activateContent(false);    
                     break;
                 case 2:
-                    top = "Settings";
-                    OnSelectedSectionEvent(Section.Settings);
+                    if (QbitsBoard.listOfQbits.Count() > 0)
+                    {
+                        if (Canvas.isMenuActive)
+                            SharedStateSwitch.setButtonActive("RunTab");
+                        OnSelectedSectionEvent(Section.Run);
+                    }
+                    else
+                        activateContent(false);                    
                     break;
             }
-            updateTopTitle();
         }
 
-        private void updateTopTitle()
+        private void activateContent(bool v)
         {
-            GameObject top = GameObject.Find("Top");
-            foreach (Transform child in top.transform)
-            {
-                child.GetComponent<Text>().text = this.top;
-            }
+            SharedStateSwitch.enableDisableContent(v);
+            Canvas.isMenuActive = v;
         }
 
         private void Start()
         {
-            top = "Set Environment";
-            section = 0;
+            
         }
-
     }
 }
 
