@@ -10,7 +10,7 @@ namespace QuantomCOMP
     {
         private GameObject gateArea;
         private WorldObject.Gates _gate;
-        private List<GameObject> gates;
+        public static List<GameObject> gates;
         private List<GameObject> tempGateWithManyAreas;
         private QbitArea mainArea;
         private bool switchState = false;
@@ -124,7 +124,8 @@ namespace QuantomCOMP
                     qbitArea.isConfirmed = true;
                     if(qbitArea.connectedGateArea != null)
                         qbitArea.connectedGateArea.isConfirmed = true;
-                    qbitArea.qbitGate.GetComponent<MeshRenderer>().material = Resources.Load(qbitArea.qbitGate.name+"conf", typeof(Material)) as Material;               
+                    Debug.Log(qbitArea.qbitGate);
+                    qbitArea.qbitGate.GetComponent<MeshRenderer>().material = Resources.Load(qbitArea.qbitGate.name + "conf", typeof(Material)) as Material;
                 }
             }
             gates.Clear();

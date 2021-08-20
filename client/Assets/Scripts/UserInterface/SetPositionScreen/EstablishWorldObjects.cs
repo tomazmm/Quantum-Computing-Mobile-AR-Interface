@@ -31,6 +31,7 @@ namespace QuantomCOMP
             //SharedStateSwitch.enableDisableMenu(true);
             SharedStateSwitch.enableDisablePositioning(false);
             SharedStateSwitch.disableAllAreaGatesButtons();
+            QbitsBoard.maxNumberOfAreas = 3;
 
             if (worldObject == WorldObject.EnvironmentObject.Board)
                 ConfirmPositionOfBoardEvent();

@@ -1398,7 +1398,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &207101672
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2419,7 +2419,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398513568}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -6.14}
+  m_LocalPosition: {x: 0, y: 0, z: -5.207}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 182169809}
@@ -3876,7 +3876,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &674489654
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5222,6 +5222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 849f49731a087f640a28b369daceec24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  addButtonPrefab: {fileID: 8802870991425753573, guid: 89673829620484647b4a12ae3656a6cf, type: 3}
+  deleteButtonPrefab: {fileID: 7657127402198758131, guid: 208ac2ae009194b4fae4917bc9b61788, type: 3}
 --- !u!114 &963746933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7454,7 +7456,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1517497452
 RectTransform:
   m_ObjectHideFlags: 0
