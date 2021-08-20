@@ -270,14 +270,15 @@ namespace QuantomCOMP
             //TODO: Remove all connected gates if qbit is destroyed
             foreach (QbitArea _tempQbitArea in QbitsBoard.listOfQbits[position].areas)
             {
-                if (_tempQbitArea.connectedGateArea != null || _tempQbitArea.positionsOfConnectedQbits.Count() != 0)
+                if ((_tempQbitArea.connectedGateArea != null && _tempQbitArea.qbitGate != null) || _tempQbitArea.positionsOfConnectedQbits.Count() != 0)
                 {
                     foreach (Qbit _qbit in QbitsBoard.listOfQbits)
                     {
                         var _qbitArea = _qbit.areas[x];
-                        //foreach (QbitArea _qbitArea in _qbit.areas[position])
-                        //{
-                        if ((_qbitArea != _tempQbitArea) && ((_qbitArea.connectedGateArea == _tempQbitArea.connectedGateArea) || _tempQbitArea.connectedGateArea == _qbitArea))
+                        if ((_qbitArea != _tempQbitArea) && 
+                            ((_qbitArea.connectedGateArea == _tempQbitArea.connectedGateArea) 
+                            || _tempQbitArea.connectedGateArea == _qbitArea)
+                            || (_qbitArea.connectedGateArea == _tempQbitArea))
                         {
                             if (_qbitArea.qbitGate != null)
                                 GameObject.Destroy(_qbitArea.qbitGate);
@@ -288,7 +289,6 @@ namespace QuantomCOMP
                             _qbitArea.isMainArea = false;
                             _qbitArea.positionsOfConnectedQbits.Clear();
                         }
-                        //}
                     }
                 }
                 x++;
@@ -318,21 +318,60 @@ namespace QuantomCOMP
                         tempNumberOfGates = x + 1;
                     }
                 }
-                //foreach (QbitArea _qbitArea in _qbit.areas)
-                //{
-                //    if (_qbitArea.qbitGate != null || _qbitArea.connectedGateArea != null)
-                //    {
-                //        tempNumberOfGates++;
-                //    }
-                //}
                 if (maxNumberOfAreas <= tempNumberOfGates)
                 {
                     maxNumberOfAreas = tempNumberOfGates;
                 }
             }
-            //one additional for the area free row
             maxNumberOfAreas++;
             return maxNumberOfAreas;
+        }
+
+        public static void decreaseNumberOfAdditionalGates()
+        {
+            foreach (Qbit _qbit in QbitsBoard.listOfQbits)
+            {
+                var x = 0;
+                foreach (QbitArea _qbitArea in _qbit.areas)
+                {
+                    if (_qbitArea.isMainArea && _qbitArea.positionsOfConnectedQbits.Count() != 0)
+                    {
+                        var z = 0;
+                        var t = 0;
+                        foreach (Qbit _tempQbit in QbitsBoard.listOfQbits)
+                        {
+                            if (_tempQbit.areas[x].connectedGateArea == _qbitArea && _tempQbit.areas[x].qbitGate != null)
+                            {
+                                var list = _qbitArea.positionsOfConnectedQbits;
+                                list[t].qbit = z;
+                                t++;
+                            }
+                            z++;
+                        }
+                    }
+                    x++;
+                }
+            }
+            //var x = 0;
+            //foreach(QbitArea _qbitArea in QbitsBoard.listOfQbits[position].areas)
+            //{
+            //    if (_qbitArea.connectedGateArea != null && _qbitArea.qbitGate == null)
+            //    {
+            //        foreach(Qbit _qbit in QbitsBoard.listOfQbits)
+            //        {
+            //            if(_qbit.areas[x].isMainArea && _qbitArea.connectedGateArea == _qbit.areas[x] 
+            //                && _qbit.areas[x].positionsOfConnectedQbits.Count() != 0)
+            //            {
+            //                var list = _qbit.areas[x].positionsOfConnectedQbits;
+            //                foreach(QbitAdditionalAreaPosition pos in list)
+            //                {
+            //                    pos.qbit -= 1;
+            //                }
+            //            }
+            //        }
+            //    }
+            //    x++;
+            //}
         }
     }
 
@@ -496,12 +535,14 @@ namespace QuantomCOMP
                 repositionOfAddButton();
             }else
                 deleteAddButton();
+
+            rearangeAllConntectedLinesAndMeasurements("add", numberBits - 1);
         }
 
         private void resizeBoard()
         {
             boardHeight = 2 * boardConstant + (numberBits * boardConstant);
-            Debug.Log(boardHeight);
+            //Debug.Log(boardHeight);
             boardBackground.transform.localPosition = new Vector3(boardBackground.transform.localPosition.x, 0, 0);
             boardBackground.transform.localRotation = new Quaternion(0, 0, 0, 0);
             boardBackground.transform.localScale = new Vector3(boardBackground.transform.localScale.x, boardHeight, 0);
@@ -575,7 +616,7 @@ namespace QuantomCOMP
 
         private void removeAnotherQubit(int position)
         {
-            Debug.Log(position);
+            //Debug.Log(position);
             if(numberBits == 5)
                 showAddButton();
             if (listOfQbits.Count() > 1)
@@ -586,7 +627,8 @@ namespace QuantomCOMP
                 listOfQbits.RemoveAt(position);
                 deleteButtons.RemoveAt(position);              
                 numberBits--;
-            }
+                Qbit.decreaseNumberOfAdditionalGates();
+            }          
 
             Debug.Log("Delete line was clicked");
             resizeBoard();
@@ -599,6 +641,56 @@ namespace QuantomCOMP
             }
             repositionOfClassicalRegister();
             repositionOfAddButton();
+            rearangeAllConntectedLinesAndMeasurements("remove", position);
+        }
+
+
+        private void rearangeAllConntectedLinesAndMeasurements(string type, int position)
+        {
+            foreach(Qbit _qbit in listOfQbits)
+            {
+                var y = 0;
+                foreach (QbitArea _qbitArea in _qbit.areas)
+                {        
+                    if(_qbitArea.qbitGate != null)
+                    {
+                        // connected lined
+                        if (_qbitArea.isMainArea && _qbitArea.positionsOfConnectedQbits.Count() != 0 && type.Contains("remove"))
+                        {
+                            var x = 2;
+                            foreach (QbitAdditionalAreaPosition _qbitAddAreaPosition in _qbitArea.positionsOfConnectedQbits)
+                            {
+                                //var mainPosition = int.Parse(_qbit.qbit.name.Substring(4))
+                                //if (_qbitAddAreaPosition.qbit > mainPosition && mainPosition >)
+                                //    _qbitAddAreaPosition.qbit -= 1;
+
+                                int positionInList = _qbitAddAreaPosition.qbit;
+                                int positionOfArea = _qbitAddAreaPosition.area - 1;
+
+                                float distance = Vector3.Distance(listOfQbits[positionInList].areas[positionOfArea].qbitArea.transform.position, _qbitArea.qbitGate.transform.position) * 10;
+                                var line = _qbitArea.qbitGate.transform.Find("lineto" + _qbitArea.qbitGate.name + "add" + x);
+                                line.transform.localScale = new Vector3(0.1f, distance + distance / 10, 0.1f);
+                                if (positionInList > int.Parse(_qbit.qbit.name.Substring(4)))
+                                    line.transform.localPosition = new Vector3(0, 1 * (-distance / 2 - distance / 20), 0);
+                                else
+                                    line.transform.localPosition = new Vector3(0, -1 * (-distance / 2 - distance / 20), 0);
+                                x++;
+                            }
+                        }
+
+                        if (_qbitArea.qbitGate.name.Contains("Measurementgate"))
+                        {
+                            float distance = Vector3.Distance(QbitsBoard.listOfQbits[numberBits - 1].areas[y].qbitArea.transform.position, _qbitArea.qbitGate.transform.position) * 10;
+                            float additionalForC = 2;
+
+                            var line = _qbitArea.qbitGate.transform.Find("lineto" + _qbitArea.qbitGate.name + "add" + 0);
+                            line.transform.localScale = new Vector3(0.1f, (additionalForC + distance) + additionalForC / 10 + distance / 10, 0.1f);
+                            line.transform.localPosition = new Vector3(0, -distance / 2 - additionalForC / 2 - additionalForC / 20 - distance / 20, 0);
+                        }
+                    }             
+                    y++;
+                }              
+            }
         }
 
         private void showAddButton()
@@ -736,7 +828,7 @@ namespace QuantomCOMP
                             Qbit.disableQbitSameRowAreas();
                         finished = false;
                         var maxNumberOfArea = Qbit.getPositionOfGateArea();
-                        Debug.Log(maxNumberOfArea);
+                        //Debug.Log(maxNumberOfArea);
                         Qbit.showAllForQbitAreas(maxNumberOfArea);
                         SharedStateSwitch.enableDisableQubitsAcceptGatesButton(true);
                     }
