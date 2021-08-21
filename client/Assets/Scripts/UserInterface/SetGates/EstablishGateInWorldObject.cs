@@ -14,7 +14,7 @@ namespace QuantomCOMP
         public static event EstablishPositionGate ConfirmPositionOfGateEvent;
 
         public static bool enableGatePositioning;
-        private Transform GateRepresentator;
+        private static Transform GateRepresentator;
  
         void Start()
         {
@@ -26,12 +26,17 @@ namespace QuantomCOMP
         public void closePositioning()
         {
             enableGatePositioning = false;
+            ConfirmPositionOfGateEvent(false);
+            closeFunction();
+            Qbit.deleteUnconfirmedGates();
+        }
+
+        public static void closeFunction()
+        {
             gate = WorldObject.Gates.None;
             Gestures.gate = gate;
-            ConfirmPositionOfGateEvent(false);
             //SharedStateSwitch.enableDisableMenu(true);
             SharedStateSwitch.enableDisableGatePositioning(false);
-            Qbit.deleteUnconfirmedGates();
             removeGatesFromRepresentator();
         }
 
@@ -193,6 +198,8 @@ namespace QuantomCOMP
             }
             else
             {
+                if (GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").childCount == 0)
+                    return;
                 //TODO: check if object isn't set
                 GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "conf", typeof(Material)) as Material;
                 GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "conf", typeof(Material)) as Material;
@@ -204,7 +211,7 @@ namespace QuantomCOMP
             }
         }
 
-        private void removeGatesFromRepresentator()
+        private static void removeGatesFromRepresentator()
         {
             //Debug.Log(GateRepresentator.transform.Find("Portrait").transform);
             foreach (Transform gate in GateRepresentator.transform.Find("Portrait").transform.Find("GateRepresentation").transform)

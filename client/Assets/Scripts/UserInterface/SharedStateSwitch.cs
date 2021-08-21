@@ -75,12 +75,26 @@ namespace QuantomCOMP
                 {
                     _gate.GetComponent<Button>().enabled = true;
                 }
+                else
+                {
+                    if(Gestures.gate == WorldObject.Gates.CNotgate || (Gestures.gate == WorldObject.Gates.Toffoligate)){
+                        EstablishGateInWorldObject.closeFunction();
+                    }
+                    _gate.GetComponent<Button>().enabled = false;
+                }
             }
             foreach (Transform _gate in gates_l.transform)
             {
                 if (!_gate.name.Contains("CNotGate") && !_gate.name.Contains("ToffoliGate"))
                 {
                     _gate.GetComponent<Button>().enabled = true;
+                }
+                else
+                {
+                    if (Gestures.gate == WorldObject.Gates.CNotgate || (Gestures.gate == WorldObject.Gates.Toffoligate)){
+                        EstablishGateInWorldObject.closeFunction();
+                    }
+                    _gate.GetComponent<Button>().enabled = false;
                 }
             }
         }
@@ -95,12 +109,27 @@ namespace QuantomCOMP
                 {
                     _gate.GetComponent<Button>().enabled = true;
                 }
+                else
+                {
+                    if (Gestures.gate == WorldObject.Gates.Toffoligate){
+                        EstablishGateInWorldObject.closeFunction();
+                    }
+                    _gate.GetComponent<Button>().enabled = false;
+                }
             }
             foreach (Transform _gate in gates_l.transform)
             {
                 if (!_gate.name.Contains("ToffoliGate"))
                 {
                     _gate.GetComponent<Button>().enabled = true;
+                }
+                else
+                {
+                    if (Gestures.gate == WorldObject.Gates.Toffoligate)
+                    {
+                        EstablishGateInWorldObject.closeFunction();
+                    }
+                    _gate.GetComponent<Button>().enabled = false;
                 }
             }
         }

@@ -45,10 +45,11 @@ namespace QuantomCOMP
         {
             if(QbitsBoard.listOfQbits.Count() != 0)
             {
-                SharedStateSwitch.enableOneAreaGatesButtons();
-                if (QbitsBoard.listOfQbits.Count() == 2)
+                if(QbitsBoard.listOfQbits.Count() == 1)
+                    SharedStateSwitch.enableOneAreaGatesButtons();
+                else if (QbitsBoard.listOfQbits.Count() == 2)
                     SharedStateSwitch.enableTwoAreaGatesButtons();
-                if (QbitsBoard.listOfQbits.Count() >= 3)
+                else
                     SharedStateSwitch.enableThreeAreaGatesButtons();
             }
         }

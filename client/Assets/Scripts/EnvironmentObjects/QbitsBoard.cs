@@ -270,27 +270,32 @@ namespace QuantomCOMP
             //TODO: Remove all connected gates if qbit is destroyed
             foreach (QbitArea _tempQbitArea in QbitsBoard.listOfQbits[position].areas)
             {
-                if ((_tempQbitArea.connectedGateArea != null && _tempQbitArea.qbitGate != null) || _tempQbitArea.positionsOfConnectedQbits.Count() != 0)
+                if(_tempQbitArea.qbitGate != null)
                 {
-                    foreach (Qbit _qbit in QbitsBoard.listOfQbits)
+                    if (_tempQbitArea.connectedGateArea != null
+                    || _tempQbitArea.positionsOfConnectedQbits.Count() != 0
+                    || _tempQbitArea.qbitGate.name.Contains("Measurementgate"))
                     {
-                        var _qbitArea = _qbit.areas[x];
-                        if ((_qbitArea != _tempQbitArea) && 
-                            ((_qbitArea.connectedGateArea == _tempQbitArea.connectedGateArea) 
-                            || _tempQbitArea.connectedGateArea == _qbitArea)
-                            || (_qbitArea.connectedGateArea == _tempQbitArea))
+                        foreach (Qbit _qbit in QbitsBoard.listOfQbits)
                         {
-                            if (_qbitArea.qbitGate != null)
-                                GameObject.Destroy(_qbitArea.qbitGate);
-                            QbitsGates.gates.Remove(_qbitArea.qbitGate);
-                            _qbitArea.qbitGate = null;
-                            _qbitArea.isConfirmed = false;
-                            _qbitArea.connectedGateArea = null;
-                            _qbitArea.isMainArea = false;
-                            _qbitArea.positionsOfConnectedQbits.Clear();
+                            var _qbitArea = _qbit.areas[x];
+                            if ((_qbitArea != _tempQbitArea) &&
+                                ((_qbitArea.connectedGateArea == _tempQbitArea.connectedGateArea)
+                                || _tempQbitArea.connectedGateArea == _qbitArea)
+                                || (_qbitArea.connectedGateArea == _tempQbitArea))
+                            {
+                                if (_qbitArea.qbitGate != null)
+                                    GameObject.Destroy(_qbitArea.qbitGate);
+                                QbitsGates.gates.Remove(_qbitArea.qbitGate);
+                                _qbitArea.qbitGate = null;
+                                _qbitArea.isConfirmed = false;
+                                _qbitArea.connectedGateArea = null;
+                                _qbitArea.isMainArea = false;
+                                _qbitArea.positionsOfConnectedQbits.Clear();
+                            }
                         }
                     }
-                }
+                }               
                 x++;
             }
             Qbit.hideQbitAreas();
@@ -352,26 +357,29 @@ namespace QuantomCOMP
                     x++;
                 }
             }
-            //var x = 0;
-            //foreach(QbitArea _qbitArea in QbitsBoard.listOfQbits[position].areas)
-            //{
-            //    if (_qbitArea.connectedGateArea != null && _qbitArea.qbitGate == null)
-            //    {
-            //        foreach(Qbit _qbit in QbitsBoard.listOfQbits)
-            //        {
-            //            if(_qbit.areas[x].isMainArea && _qbitArea.connectedGateArea == _qbit.areas[x] 
-            //                && _qbit.areas[x].positionsOfConnectedQbits.Count() != 0)
-            //            {
-            //                var list = _qbit.areas[x].positionsOfConnectedQbits;
-            //                foreach(QbitAdditionalAreaPosition pos in list)
-            //                {
-            //                    pos.qbit -= 1;
-            //                }
-            //            }
-            //        }
-            //    }
-            //    x++;
-            //}
+        }
+
+        internal static void assignAdditionalMeasurementareas()
+        {
+            var y = 0;
+            foreach (Qbit _qbit in QbitsBoard.listOfQbits)
+            {
+                var x = 0;
+                foreach (QbitArea _qbitArea in _qbit.areas)
+                {
+                    if(_qbitArea.qbitGate != null)
+                    {
+                        if (_qbitArea.isMainArea && _qbitArea.qbitGate.name.Contains("Measurementgate"))
+                        {
+                            foreach (Qbit _tempQbit in QbitsBoard.listOfQbits)
+                            {
+                                _tempQbit.areas[x].connectedGateArea = _qbitArea;
+                            }
+                        }
+                    }                   
+                   x++;
+                }
+            }
         }
     }
 
@@ -518,7 +526,7 @@ namespace QuantomCOMP
 
         public void addAnotherQubit()
         {
-            Debug.Log("Add line was clicked");
+            //Debug.Log("Add line was clicked");
             //createLine(numberBits, "qubit");
             numberBits++;
             resizeBoard();
@@ -537,6 +545,7 @@ namespace QuantomCOMP
                 deleteAddButton();
 
             rearangeAllConntectedLinesAndMeasurements("add", numberBits - 1);
+            Qbit.assignAdditionalMeasurementareas();
         }
 
         private void resizeBoard()
@@ -630,7 +639,7 @@ namespace QuantomCOMP
                 Qbit.decreaseNumberOfAdditionalGates();
             }          
 
-            Debug.Log("Delete line was clicked");
+            //Debug.Log("Delete line was clicked");
             resizeBoard();
             for (int x = 0; x < numberBits; x++)
             {
@@ -816,6 +825,7 @@ namespace QuantomCOMP
                 removeAdditionalSpace();
                 if (!QbitsGates.buildingOnMultipleGatesAreas)
                 {
+                    //Debug.Log("here");
                     Qbit.disableQbitSameRowAreas();
                     Qbit.showQbitAreas();
                 }
