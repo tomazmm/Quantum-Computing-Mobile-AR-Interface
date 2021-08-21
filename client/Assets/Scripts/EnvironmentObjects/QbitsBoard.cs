@@ -279,10 +279,11 @@ namespace QuantomCOMP
                         foreach (Qbit _qbit in QbitsBoard.listOfQbits)
                         {
                             var _qbitArea = _qbit.areas[x];
-                            if ((_qbitArea != _tempQbitArea) &&
-                                ((_qbitArea.connectedGateArea == _tempQbitArea.connectedGateArea)
-                                || _tempQbitArea.connectedGateArea == _qbitArea)
-                                || (_qbitArea.connectedGateArea == _tempQbitArea))
+                            if ((_qbitArea != _tempQbitArea) 
+                                && (_qbitArea.connectedGateArea != null || (_qbitArea.isMainArea && _qbitArea.positionsOfConnectedQbits.Count != 0)) 
+                                && ((_qbitArea.connectedGateArea == _tempQbitArea.connectedGateArea)
+                                        || _tempQbitArea.connectedGateArea == _qbitArea)
+                                        || (_qbitArea.connectedGateArea == _tempQbitArea))
                             {
                                 if (_qbitArea.qbitGate != null)
                                     GameObject.Destroy(_qbitArea.qbitGate);
