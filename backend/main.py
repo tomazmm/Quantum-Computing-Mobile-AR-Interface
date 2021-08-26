@@ -50,7 +50,6 @@ def statevector():
             i += 1
     except IndexError:
         circ.data = data_copy
-        print(*circ.data, sep="\n")
 
     # Transpile for simulator
     simulator = Aer.get_backend('aer_simulator')
