@@ -28,8 +28,7 @@ class Circuit(Resource):
                 if el == "counts":
                     continue
                 ret["state_vectors"][el] = str(result_data[el])
-            ret["state_vectors"] = dict(sorted(ret["state_vectors"].items()))  # sort state vectors by key
-
+            ret["sorted_sv_keys"] = sorted(ret["state_vectors"], key=lambda x: int(x.split("-")[1]))
             return ret
         except Exception as e:
             return e.args[0], 400
