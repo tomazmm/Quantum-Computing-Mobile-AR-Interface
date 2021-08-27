@@ -7,6 +7,7 @@ from qiskit.providers.aer.library.default_qubits import default_qubits
 
 
 class Circuit(Resource):
+
     def post(self):
         try:
             qasm_str = request.get_data().decode('utf-8')
@@ -18,7 +19,12 @@ class Circuit(Resource):
             while len(circ.data) != i:
                 circuit_element = circ.data[i]
                 if type(circuit_element[0]) is not SaveStatevector:
-                    sv = SaveStatevector(len(qubits), label=f"sv-{i}")
+                    # create sv label
+                    label = f"sv-{i}-{circuit_element[0].name}"
+                    for qbit in circuit_element[1]:
+                        label += f"-{qbit.index}"
+                    # add sv to circuit
+                    sv = SaveStatevector(len(qubits), label=label)
                     circ.data.insert(i + 1, (sv, qubits, []))
                 i += 1
 
@@ -38,5 +44,9 @@ class Circuit(Resource):
             return ret
         except Exception as e:
             return e.args[0], 400
+
+
+
+
 
 
