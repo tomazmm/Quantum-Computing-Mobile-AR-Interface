@@ -1,19 +1,42 @@
 import os
 from flask_restful import Resource
 from flask import request
-from qiskit import QuantumCircuit, Aer, execute
+from qiskit import QuantumCircuit, Aer, transpile
+from qiskit.providers.aer.library import SaveStatevector
+from qiskit.providers.aer.library.default_qubits import default_qubits
 
 
 class Circuit(Resource):
     def post(self):
         try:
             qasm_str = request.get_data().decode('utf-8')
-            qc = QuantumCircuit.from_qasm_str(qasm_str)
+            circ = QuantumCircuit.from_qasm_str(qasm_str)
 
-            backend = Aer.get_backend(name="aer_simulator")
-            job = execute(qc, backend)
+            # Add SaveStateVector after each gate for intermediate results
+            i = 0
+            qubits = default_qubits(circ)
+            while len(circ.data) != i:
+                circuit_element = circ.data[i]
+                if type(circuit_element[0]) is not SaveStatevector:
+                    sv = SaveStatevector(len(qubits), label=f"sv-{i}")
+                    circ.data.insert(i + 1, (sv, qubits, []))
+                i += 1
 
-            return job.result().get_counts()
+            # Transpile for  and run circuit
+            simulator = Aer.get_backend('aer_simulator')
+            circ = transpile(circ, simulator)
+            result_data = simulator.run(circ).result().data()
+
+            ret = {
+                "counts": result_data["counts"],
+                "state_vectors": {}
+            }
+            for el in result_data:
+                if el == "counts": continue
+                ret["state_vectors"][el] = str(result_data[el])
+
+            return ret
         except Exception as e:
             return e.args[0], 400
+
 
