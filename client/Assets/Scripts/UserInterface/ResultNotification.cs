@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ namespace QuantomCOMP
 {
     public class ResultNotification : MonoBehaviour
     {
+        public static string stateVectorsResult;
         // Start is called before the first frame update
         void Start()
         {
@@ -21,7 +23,7 @@ namespace QuantomCOMP
 
         public void nextState()
         {
-            SharedStateSwitch.quState++;
+            SharedStateSwitch.quState++;           
             changeState();
         }
 
@@ -31,10 +33,12 @@ namespace QuantomCOMP
             changeState();
         }
 
-        private void changeState()
+        public static void changeState()
         {
+            stateVectorsResult = Parser.getState();
             SharedStateSwitch.changeResultStateText();
         }
+
 
         // Update is called once per frame
         void Update()
@@ -47,8 +51,15 @@ namespace QuantomCOMP
             {
                 SharedStateSwitch.enableDisableNotificationPreviousButton(true);
             }
-
-            //TODO: disable next if there is no more states in list left.
+            
+            if (Parser.sorted_sv_keys.Count() - 1 > SharedStateSwitch.quState)
+            {
+                SharedStateSwitch.enableDisableNotificationNextButton(true);
+            }
+            else
+            {
+                SharedStateSwitch.enableDisableNotificationNextButton(false);
+            }
         }
     }
 }
