@@ -37,8 +37,8 @@ namespace QuantomCOMP
             {
                 Debug.Log(request.downloadHandler.text);
                 SharedStateSwitch.enableDisableNotification(true);
-                GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("Notification").transform.Find("Text").GetComponent<Text>().text = request.downloadHandler.text;
-                GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("Notification").transform.Find("Text").GetComponent<Text>().text = request.downloadHandler.text;
+                GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("ResultNotification").transform.Find("Result").GetComponent<Text>().text = request.downloadHandler.text;
+                GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("ResultNotification").transform.Find("Result").GetComponent<Text>().text = request.downloadHandler.text;
             }
  
         }

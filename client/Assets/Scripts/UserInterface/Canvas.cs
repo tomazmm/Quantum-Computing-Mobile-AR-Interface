@@ -52,6 +52,7 @@ namespace QuantomCOMP
             SharedStateSwitch.enableDisableBottomMenuNavigation(true);
             SharedStateSwitch.disableNavigationButtons();
             SharedStateSwitch.enableDisableNotification(false);
+            SharedStateSwitch.quState = 0;
             section = 0;
             isMenuActive = false;
             isBoardActive = false;

@@ -124,7 +124,7 @@ namespace QuantomCOMP
                     qbitArea.isConfirmed = true;
                     if(qbitArea.connectedGateArea != null)
                         qbitArea.connectedGateArea.isConfirmed = true;
-                    Debug.Log(qbitArea.qbitGate);
+                    //Debug.Log(qbitArea.qbitGate);
                     qbitArea.qbitGate.GetComponent<MeshRenderer>().material = Resources.Load(qbitArea.qbitGate.name + "conf", typeof(Material)) as Material;
                 }
             }

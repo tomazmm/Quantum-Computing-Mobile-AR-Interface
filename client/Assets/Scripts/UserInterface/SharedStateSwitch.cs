@@ -8,6 +8,7 @@ namespace QuantomCOMP
 {
     public class SharedStateSwitch : MonoBehaviour
     {
+        public static int quState;
         public static void enableDisablePositioning(bool state)
         {
             GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetPositionScreen").transform.Find("Content").gameObject.SetActive(state);
@@ -42,8 +43,8 @@ namespace QuantomCOMP
 
         public static void enableDisableNotification(bool state)
         {
-            GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("Notification").gameObject.SetActive(state);
-            GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("Notification").gameObject.SetActive(state);
+            GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("ResultNotification").gameObject.SetActive(state);
+            GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("ResultNotification").gameObject.SetActive(state);
         }
 
         public static void enableDisableBottomMenuNavigation(bool state)
@@ -62,6 +63,48 @@ namespace QuantomCOMP
         {
             GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetGates").transform.Find("Content").transform.Find("AcceptButton").gameObject.SetActive(state);
             GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetGates").transform.Find("Content").transform.Find("AcceptButton").gameObject.SetActive(state);
+        }
+
+        public static void enableDisableNotificationPreviousButton(bool state)
+        {
+            string stateOfButton;
+            Color color;
+            if (state)
+            {
+                stateOfButton = "";
+                color = new Color(50 / 255f, 50 / 255f, 50 / 255f);
+            }
+                
+            else
+            {
+                stateOfButton = "Disabled";
+                color = new Color(222 / 255f, 222 / 255f, 222 / 255f);
+            }
+                
+
+            Sprite sprite;
+            Texture2D activeImageTexture;
+            activeImageTexture = Resources.Load("Images/UIIcons/Previous" + stateOfButton) as Texture2D;
+            sprite = Sprite.Create(activeImageTexture, new Rect(0.0f, 0.0f, activeImageTexture.width, activeImageTexture.height), new Vector2(0.5f, 0.5f), 100.0f);
+
+
+            var obj_p = GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("ResultNotification").transform.Find("Previous");
+            var obj_l = GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("ResultNotification").transform.Find("Previous");
+
+            obj_p.transform.Find("Button").GetComponent<Button>().enabled = state;           
+            obj_p.transform.Find("Button").GetComponent<Image>().sprite = sprite;
+            obj_p.Find("Text").gameObject.GetComponent<Text>().color = color;
+
+            obj_l.transform.Find("Button").GetComponent<Button>().enabled = state;
+            obj_l.transform.Find("Button").GetComponent<Image>().sprite = sprite;
+            obj_l.Find("Text").gameObject.GetComponent<Text>().color = color;
+
+        }
+
+        public static void changeResultStateText()
+        {
+            GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("ResultNotification").transform.Find("State").GetComponent<Text>().text = "State\n" + quState;
+            GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("ResultNotification").transform.Find("State").GetComponent<Text>().text = "State\n" + quState;
         }
 
         public static void enableOneAreaGatesButtons()

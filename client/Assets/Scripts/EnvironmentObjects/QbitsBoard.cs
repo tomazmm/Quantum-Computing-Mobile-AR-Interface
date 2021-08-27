@@ -362,7 +362,6 @@ namespace QuantomCOMP
 
         internal static void assignAdditionalMeasurementareas()
         {
-            var y = 0;
             foreach (Qbit _qbit in QbitsBoard.listOfQbits)
             {
                 var x = 0;
