@@ -20,6 +20,7 @@ class Circuit(Resource):
             circ = transpile(circ, simulator)
             result_data = simulator.run(circ).result().data()
 
+            # Prepare response object
             ret = {
                 "counts": result_data["counts"],
                 "state_vectors": {}
@@ -29,6 +30,7 @@ class Circuit(Resource):
                     continue
                 ret["state_vectors"][el] = str(result_data[el])
             ret["sorted_sv_keys"] = sorted(ret["state_vectors"], key=lambda x: int(x.split("-")[1]))
+
             return ret
         except Exception as e:
             return e.args[0], 400
