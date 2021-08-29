@@ -9,6 +9,7 @@ namespace QuantomCOMP
     public class SharedStateSwitch : MonoBehaviour
     {
         public static int quState;
+        public static string typeOfResult = "States";
         public static void enableDisablePositioning(bool state)
         {
             GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetPositionScreen").transform.Find("Content").gameObject.SetActive(state);
@@ -137,12 +138,30 @@ namespace QuantomCOMP
 
         }
 
+        public static void changeResultPresentation(string type)
+        {
+            var obj_p = GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("ResultNotification");
+            var obj_l = GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("ResultNotification");
+
+            if (type.Contains("End"))
+            {
+                obj_p.transform.Find("Result").GetComponent<Text>().text = Parser.showMeasurementResult();
+                obj_l.transform.Find("Result").GetComponent<Text>().text = Parser.showMeasurementResult();
+            }
+            else
+            {
+                obj_p.transform.Find("Result").GetComponent<Text>().text = ResultNotification.stateVectorsResult.ToString();
+                obj_l.transform.Find("Result").GetComponent<Text>().text = ResultNotification.stateVectorsResult.ToString();
+            }
+            
+        }
+
         public static void changeResultStateText()
         {
             var obj_p = GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("ResultNotification");
             var obj_l = GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("ResultNotification");
 
-            Debug.Log(ResultNotification.stateVectorsResult);
+            //Debug.Log(ResultNotification.stateVectorsResult);
             obj_p.transform.Find("Result").GetComponent<Text>().text = ResultNotification.stateVectorsResult.ToString();
             obj_l.transform.Find("Result").GetComponent<Text>().text = ResultNotification.stateVectorsResult.ToString();
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,20 +18,35 @@ namespace QuantomCOMP
 
         public void closeNotification(GameObject gObject)
         {
+            SharedStateSwitch.typeOfResult = "States";
+            Parser.setAllGatesWithState();
+            Parser.cleanList();
             gObject.SetActive(false);
             SharedStateSwitch.quState = 0;
         }
 
         public void nextState()
         {
+            SharedStateSwitch.typeOfResult = "States";
             SharedStateSwitch.quState++;           
             changeState();
         }
 
         public void previousState()
         {
+            SharedStateSwitch.typeOfResult = "States";
             SharedStateSwitch.quState--;
             changeState();
+        }
+
+        public void switchStateResult()
+        {
+            if (SharedStateSwitch.typeOfResult.Contains("States"))
+                SharedStateSwitch.typeOfResult = "End";
+            else
+                SharedStateSwitch.typeOfResult = "States";
+                
+            SharedStateSwitch.changeResultPresentation(SharedStateSwitch.typeOfResult);
         }
 
         public static void changeState()
@@ -60,7 +76,7 @@ namespace QuantomCOMP
             {
                 SharedStateSwitch.enableDisableNotificationNextButton(false);
             }
-        }
+        }      
     }
 }
 

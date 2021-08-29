@@ -95,6 +95,7 @@ namespace QuantomCOMP
                     _qbit.areas[position].isConfirmed = false;
                     _qbit.areas[position].connectedGateArea = null;
                     _qbit.areas[position].isMainArea = false;
+                    _qbit.areas[position].usedinState = false;
                     _qbit.areas[position].positionsOfConnectedQbits.Clear();
                 }
             }
@@ -111,6 +112,7 @@ namespace QuantomCOMP
                     qbitArea.qbitGate = null;
                     qbitArea.connectedGateArea = null;
                     qbitArea.isMainArea = false;
+                    qbitArea.usedinState = false;
                     qbitArea.positionsOfConnectedQbits.Clear();
                     tempNumberOfGateAreas = 0;
                     numberOfGateAreas = 0;

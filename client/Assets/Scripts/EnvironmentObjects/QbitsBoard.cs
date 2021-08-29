@@ -19,6 +19,7 @@ namespace QuantomCOMP
         public QbitArea connectedGateArea;
         public bool isMainArea;
         public List<QbitAdditionalAreaPosition> positionsOfConnectedQbits;
+        public bool usedinState;
     }
 
     public class Qbit
@@ -154,6 +155,7 @@ namespace QuantomCOMP
                 qbitArea.qbitArea = sphere;
                 qbitArea.qbitGate = null;
                 qbitArea.isMainArea = false;
+                qbitArea.usedinState = false;
                 qbitArea.positionsOfConnectedQbits = new List<QbitAdditionalAreaPosition>();
                 qbitArea.connectedGateArea = null;
 
@@ -292,6 +294,7 @@ namespace QuantomCOMP
                                 _qbitArea.isConfirmed = false;
                                 _qbitArea.connectedGateArea = null;
                                 _qbitArea.isMainArea = false;
+                                _qbitArea.usedinState = false;
                                 _qbitArea.positionsOfConnectedQbits.Clear();
                             }
                         }
@@ -776,6 +779,7 @@ namespace QuantomCOMP
                 qbitArea.qbitArea = sphere;
                 qbitArea.qbitGate = null;
                 qbitArea.isMainArea = false;
+                qbitArea.usedinState = false;
                 qbitArea.positionsOfConnectedQbits = new List<QbitAdditionalAreaPosition>();
                 qbitObject.areas.Add(qbitArea);
                 //Debug.Log(qbitArea.qbitGate);
