@@ -20,13 +20,29 @@ namespace QuantomCOMP
         public static string getState()
         {
             var x = 0;
-            foreach(var it in state_vectors)
+            foreach(var it in sorted_sv_keys)
             {
                 if(SharedStateSwitch.quState == x)
-                    return it.ToString();
+                {
+                    var result = state_vectors.SelectToken(it.ToString());
+                    return getNameOfGate(it.ToString()).ToString() + " " + result;
+                }                    
                 x++;
             }
             return null;
+        }
+
+        public static WorldObject.Gates getNameOfGate(string gate)
+        {
+            //TODO: add gates
+            if (gate.Contains("h"))
+                return WorldObject.Gates.Hgate;
+            else if (gate.Contains("measure"))
+                return WorldObject.Gates.Measurementgate;
+            else if(gate.Contains("x"))
+                return WorldObject.Gates.CNotgate;
+            else
+                return WorldObject.Gates.None;
         }
     }
 }

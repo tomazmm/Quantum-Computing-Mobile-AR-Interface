@@ -125,7 +125,7 @@ namespace QuantomCOMP
                     if(qbitArea.connectedGateArea != null)
                         qbitArea.connectedGateArea.isConfirmed = true;
                     //Debug.Log(qbitArea.qbitGate);
-                    qbitArea.qbitGate.GetComponent<MeshRenderer>().material = Resources.Load(qbitArea.qbitGate.name + "conf", typeof(Material)) as Material;
+                    qbitArea.qbitGate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/"+qbitArea.qbitGate.name + "conf", typeof(Material)) as Material;
                 }
             }
             gates.Clear();
@@ -165,7 +165,7 @@ namespace QuantomCOMP
                 gate.transform.localScale = new Vector3(1.8f, 1.8f, 1.8f);
                 gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 gate.transform.localPosition = new Vector3(0, 0, 0);
-                gate.GetComponent<MeshRenderer>().material = Resources.Load(EstablishGateInWorldObject.gate.ToString(), typeof(Material)) as Material;
+                gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/"+EstablishGateInWorldObject.gate.ToString(), typeof(Material)) as Material;
                 var parent = gateArea.transform.parent;
                 var positionInList = parent.name.Substring(4);
                 var positionOfArea = gateArea.name.Substring(10);
@@ -191,7 +191,7 @@ namespace QuantomCOMP
                 gate.transform.localScale = new Vector3(1.8f, 1.8f, 1.8f);
                 gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 gate.transform.localPosition = new Vector3(0, 0, 0);
-                gate.GetComponent<MeshRenderer>().material = Resources.Load(EstablishGateInWorldObject.gate.ToString() + "add", typeof(Material)) as Material;
+                gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/"+EstablishGateInWorldObject.gate.ToString() + "add", typeof(Material)) as Material;
                 var parent = gateArea.transform.parent;
                 var positionInList = parent.name.Substring(4);
                 var positionOfArea = gateArea.name.Substring(10);
@@ -224,7 +224,7 @@ namespace QuantomCOMP
             line.transform.localScale = new Vector3(0.1f, (additionalForC + distance) + additionalForC/10 + distance / 10, 0.1f);
             line.transform.localRotation = new Quaternion(0, 0, 0, 0);
             line.transform.localPosition = new Vector3(0, - distance / 2 - additionalForC / 2 - additionalForC/20 - distance / 20, 0);
-            line.GetComponent<MeshRenderer>().material = Resources.Load("MeasurementLine", typeof(Material)) as Material;
+            line.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/MeasurementLine", typeof(Material)) as Material;
         }
 
         private void connectAreasToMeasurementGate(int positionInList, int positionOfArea)
@@ -299,7 +299,7 @@ namespace QuantomCOMP
             line.transform.localScale = new Vector3(0.1f, distance + distance/10, 0.1f);
             line.transform.localRotation = new Quaternion(0, 0, 0, 0);
             line.transform.localPosition = new Vector3(0, reverse *(-distance/2 - distance/20), 0);
-            line.GetComponent<MeshRenderer>().material = Resources.Load("Betweenline", typeof(Material)) as Material;
+            line.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/Betweenline", typeof(Material)) as Material;
         }
 
         private void resetNumberOfGateAreas()

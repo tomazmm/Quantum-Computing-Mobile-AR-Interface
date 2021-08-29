@@ -85,7 +85,7 @@ namespace QuantomCOMP
                 _gate.transform.localPosition = new Vector3(0, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
-                _gate.GetComponent<MeshRenderer>().material = Resources.Load(_gate.name, typeof(Material)) as Material;
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + _gate.name, typeof(Material)) as Material;
 
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 _gate.name = gate.ToString() + "conf";
@@ -93,7 +93,7 @@ namespace QuantomCOMP
                 _gate.transform.localPosition = new Vector3(0, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
-                _gate.GetComponent<MeshRenderer>().material = Resources.Load(_gate.name, typeof(Material)) as Material;
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + _gate.name, typeof(Material)) as Material;
 
             }
             else if(QbitsGates.numberOfGateAreas <= 2)
@@ -104,7 +104,7 @@ namespace QuantomCOMP
                 _gate.transform.localPosition = new Vector3(-60, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
-                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "conf", typeof(Material)) as Material;
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "conf", typeof(Material)) as Material;
 
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 _gate.name = gate.ToString() + "conf";
@@ -112,7 +112,7 @@ namespace QuantomCOMP
                 _gate.transform.localPosition = new Vector3(-60, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
-                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "conf", typeof(Material)) as Material;
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "conf", typeof(Material)) as Material;
 
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 _gate.name = gate.ToString() + "addconf1";
@@ -120,7 +120,7 @@ namespace QuantomCOMP
                 _gate.transform.localPosition = new Vector3(60, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
-                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "addconf", typeof(Material)) as Material;
 
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 _gate.name = gate.ToString() + "addconf1";
@@ -128,7 +128,7 @@ namespace QuantomCOMP
                 _gate.transform.localPosition = new Vector3(60, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
-                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "addconf", typeof(Material)) as Material;
             }
             else
             {
@@ -138,7 +138,7 @@ namespace QuantomCOMP
                 _gate.transform.localPosition = new Vector3(-105, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
-                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "conf", typeof(Material)) as Material;
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "conf", typeof(Material)) as Material;
 
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 _gate.name = gate.ToString() + "addconf1";
@@ -146,7 +146,7 @@ namespace QuantomCOMP
                 _gate.transform.localPosition = new Vector3(0, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
-                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "addconf", typeof(Material)) as Material;
 
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 _gate.name = gate.ToString() + "addconf2";
@@ -154,7 +154,7 @@ namespace QuantomCOMP
                 _gate.transform.localPosition = new Vector3(105, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
-                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "addconf", typeof(Material)) as Material;
 
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 _gate.name = gate.ToString() + "conf";
@@ -162,7 +162,7 @@ namespace QuantomCOMP
                 _gate.transform.localPosition = new Vector3(-105, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
-                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "conf", typeof(Material)) as Material;
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "conf", typeof(Material)) as Material;
 
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 _gate.name = gate.ToString() + "addconf1";
@@ -170,7 +170,7 @@ namespace QuantomCOMP
                 _gate.transform.localPosition = new Vector3(0, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
-                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "addconf", typeof(Material)) as Material;
 
                 _gate = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 _gate.name = gate.ToString() + "addconf2";
@@ -178,7 +178,7 @@ namespace QuantomCOMP
                 _gate.transform.localPosition = new Vector3(105, 0, 0);
                 _gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 _gate.transform.localScale = new Vector3(90, 90, 90);
-                _gate.GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
+                _gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "addconf", typeof(Material)) as Material;
 
             }
             
@@ -188,25 +188,25 @@ namespace QuantomCOMP
         {
             if(QbitsGates.tempNumberOfGateAreas == 1 && QbitsGates.buildingOnMultipleGatesAreas)
             {
-                GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString()+"hide", typeof(Material)) as Material;
-                GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "hide", typeof(Material)) as Material;
+                GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString()+"hide", typeof(Material)) as Material;
+                GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "hide", typeof(Material)) as Material;
             }
             else if(QbitsGates.tempNumberOfGateAreas == 2)
             {
-                GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "add" + "hide", typeof(Material)) as Material;
-                GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "add" + "hide", typeof(Material)) as Material;
+                GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "add" + "hide", typeof(Material)) as Material;
+                GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "add" + "hide", typeof(Material)) as Material;
             }
             else
             {
                 if (GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").childCount == 0)
                     return;
                 //TODO: check if object isn't set
-                GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "conf", typeof(Material)) as Material;
-                GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "conf", typeof(Material)) as Material;
+                GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "conf", typeof(Material)) as Material;
+                GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "conf").GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "conf", typeof(Material)) as Material;
                 if(QbitsGates.numberOfGateAreas > 1)
                 {
-                    GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
-                    GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load(gate.ToString() + "addconf", typeof(Material)) as Material;
+                    GateRepresentator.Find("Portrait").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "addconf", typeof(Material)) as Material;
+                    GateRepresentator.Find("Landscape").transform.Find("GateRepresentation").transform.Find(gate.ToString() + "addconf1").GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/" + gate.ToString() + "addconf", typeof(Material)) as Material;
                 }               
             }
         }

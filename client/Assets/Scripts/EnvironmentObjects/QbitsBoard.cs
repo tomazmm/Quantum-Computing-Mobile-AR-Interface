@@ -142,7 +142,7 @@ namespace QuantomCOMP
                 var qbitArea = new QbitArea();
 
                 GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                sphere.GetComponent<MeshRenderer>().material = Resources.Load("GatePoint", typeof(Material)) as Material;
+                sphere.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/GatePoint", typeof(Material)) as Material;
                 sphere.SetActive(false);
                 sphere.transform.parent = _qbit.qbit.transform;
                 sphere.name = sphere.name + "Area" + number;
@@ -738,7 +738,7 @@ namespace QuantomCOMP
 
         private void setLineMaterial()
         {
-            lineMaterial = Resources.Load("LineMaterial", typeof(Material)) as Material;
+            lineMaterial = Resources.Load("GateMaterials/LineMaterial", typeof(Material)) as Material;
             lineRenderer.material = lineMaterial;
         }
 
@@ -764,7 +764,7 @@ namespace QuantomCOMP
                 QbitArea qbitArea = new QbitArea();
 
                 GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                sphere.GetComponent<MeshRenderer>().material = Resources.Load("GatePoint", typeof(Material)) as Material;
+                sphere.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/GatePoint", typeof(Material)) as Material;
                 sphere.SetActive(false);
                 sphere.transform.parent = qbit.transform;
                 sphere.name = sphere.name + "Area" + x;
