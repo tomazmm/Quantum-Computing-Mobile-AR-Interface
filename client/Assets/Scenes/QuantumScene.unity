@@ -5077,7 +5077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &674489654
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6950,6 +6950,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   addButtonPrefab: {fileID: 8802870991425753573, guid: 89673829620484647b4a12ae3656a6cf, type: 3}
   deleteButtonPrefab: {fileID: 7657127402198758131, guid: 208ac2ae009194b4fae4917bc9b61788, type: 3}
+  phaseDiskPrefab: {fileID: 2736321794128337490, guid: e457567c933118f4986d3bc0b46476de, type: 3}
 --- !u!114 &963746933
 MonoBehaviour:
   m_ObjectHideFlags: 0

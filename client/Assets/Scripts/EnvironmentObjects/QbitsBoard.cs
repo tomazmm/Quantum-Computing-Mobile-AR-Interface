@@ -393,6 +393,7 @@ namespace QuantomCOMP
         private GameObject classicRegister;
         private GameObject addButton;
         private List<GameObject> deleteButtons;
+        private List<GameObject> listPhaseDisks;
         private float boardConstant = 0.4f;
         private float areaPositionConstant = 0.25f;
         public static List<Qbit> listOfQbits;
@@ -406,6 +407,7 @@ namespace QuantomCOMP
 
         public Transform addButtonPrefab;
         public Transform deleteButtonPrefab;
+        public Transform phaseDiskPrefab;
 
         void Start()
         {
@@ -415,6 +417,7 @@ namespace QuantomCOMP
             board.SetActive(false);
             listOfQbits = new List<Qbit>();
             deleteButtons = new List<GameObject>();
+            listPhaseDisks = new List<GameObject>();
             maxNumberOfAreas = 3;
         }
 
@@ -491,6 +494,7 @@ namespace QuantomCOMP
                 qbitobject.line = line;
 
                 createNameTag("Qbit " + number, qbit, number);
+                createAddPhaseDisk(qbit);
                 setAreasForGates(qbit, line, qbitobject);
 
 
@@ -518,6 +522,21 @@ namespace QuantomCOMP
                 showAddButton();
             }
             
+        }
+
+        private void createAddPhaseDisk(GameObject qbit)
+        {
+            Transform phaseDisk = createPhaseDisk();
+            phaseDisk.transform.parent = qbit.transform;
+            setPhaseDiskPosition(phaseDisk);
+            listPhaseDisks.Add(phaseDisk.gameObject);
+        }
+
+        private void setPhaseDiskPosition(Transform phaseDisk)
+        {
+            phaseDisk.transform.localPosition = new Vector3(1.1f, 0, 0);
+            phaseDisk.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            phaseDisk.transform.localScale = new Vector3(0.4f, 0.8f, 0.1f);
         }
 
         private void setAddButtonPosition(Transform button)
@@ -595,6 +614,15 @@ namespace QuantomCOMP
             return prefabButton;
         }
 
+        private Transform createPhaseDisk()
+        {
+            Transform prefabPhaseDisk;
+            prefabPhaseDisk = Instantiate(phaseDiskPrefab, this.gameObject.transform.position, this.gameObject.transform.rotation);
+            prefabPhaseDisk.transform.parent = this.gameObject.transform;
+            prefabPhaseDisk.name = "PhaseDisk";
+            return prefabPhaseDisk;
+        }
+
         private void createNameTag(string name, GameObject qbit, int number)
         {
             GameObject nameTag = new GameObject();
@@ -644,6 +672,7 @@ namespace QuantomCOMP
 
             //Debug.Log("Delete line was clicked");
             resizeBoard();
+            listPhaseDisks.Remove(listPhaseDisks.Last());
             for (int x = 0; x < numberBits; x++)
             {
                 var button_n = x;
@@ -653,7 +682,7 @@ namespace QuantomCOMP
             }
             repositionOfClassicalRegister();
             repositionOfAddButton();
-            rearangeAllConntectedLinesAndMeasurements("remove", position);
+            rearangeAllConntectedLinesAndMeasurements("remove", position);           
         }
 
 
@@ -801,8 +830,21 @@ namespace QuantomCOMP
                 float y = boardBackground.transform.localScale.y;
                 float z = boardBackground.transform.localScale.z; 
                 boardBackground.transform.localScale = new Vector3(boardBackground.transform.localScale.x + areaPositionConstant, y, z);
+                repositionPfaseDisks("right");
                 Qbit.createAdditionalSpaceAreas(areaPositionConstant);
             }
+        }
+
+        private void repositionPfaseDisks(string direction)
+        {         
+            foreach(GameObject pfDisk in listPhaseDisks)
+            {
+                Vector3 pfDiskOldPosition = pfDisk.transform.localPosition;
+                if(direction.Contains("right"))
+                    pfDisk.transform.localPosition = new Vector3(pfDiskOldPosition.x + areaPositionConstant, pfDiskOldPosition.y, pfDiskOldPosition.z);
+                else
+                    pfDisk.transform.localPosition = new Vector3(pfDiskOldPosition.x - areaPositionConstant, pfDiskOldPosition.y, pfDiskOldPosition.z);
+            }   
         }
 
         public void removeAdditionalSpace()
@@ -814,6 +856,7 @@ namespace QuantomCOMP
                 float y = boardBackground.transform.localScale.y;
                 float z = boardBackground.transform.localScale.z;
                 boardBackground.transform.localScale = new Vector3(boardBackground.transform.localScale.x - areaPositionConstant, y, z);
+                repositionPfaseDisks("left");
                 Qbit.removeAdditionalSpaceAreas(areaPositionConstant);
             }         
         }
