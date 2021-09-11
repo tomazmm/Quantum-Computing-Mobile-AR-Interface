@@ -90,6 +90,8 @@ namespace QuantomCOMP
         public static string getState()
         {
             var x = 0;
+            if (sorted_sv_keys == null)
+                return null;
             foreach (var it in sorted_sv_keys)
             {
                 if (SharedStateSwitch.quState == x)

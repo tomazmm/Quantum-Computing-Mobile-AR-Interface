@@ -10,7 +10,8 @@ namespace QuantomCOMP
         public enum EnvironmentObject
         {
             Board,
-            BlochSphere
+            BlochSphere,
+            ProbabilitiesGraph
         }
 
         public enum Gates

@@ -15,6 +15,9 @@ namespace QuantomCOMP
         public delegate void EstablishPositionSphere ();
         public static event EstablishPositionSphere ConfirmPositionOfSphereEvent;
 
+        public delegate void EstablishPositionProbabilitiesGraph();
+        public static event EstablishPositionProbabilitiesGraph ConfirmPositionOfProbabilitiesGraphEvent;
+
         private void Start()
         {
             subscribeToEvent();
@@ -35,8 +38,10 @@ namespace QuantomCOMP
 
             if (worldObject == WorldObject.EnvironmentObject.Board)
                 ConfirmPositionOfBoardEvent();
-            else
+            else if (worldObject == WorldObject.EnvironmentObject.BlochSphere)
                 ConfirmPositionOfSphereEvent();
+            else
+                ConfirmPositionOfProbabilitiesGraphEvent();
         }
 
 

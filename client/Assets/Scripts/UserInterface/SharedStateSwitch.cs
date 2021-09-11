@@ -162,9 +162,12 @@ namespace QuantomCOMP
             var obj_l = GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("ResultNotification");
 
             //Debug.Log(ResultNotification.stateVectorsResult);
-            obj_p.transform.Find("Result").GetComponent<Text>().text = ResultNotification.stateVectorsResult.ToString();
-            obj_l.transform.Find("Result").GetComponent<Text>().text = ResultNotification.stateVectorsResult.ToString();
-
+            if (ResultNotification.stateVectorsResult != null)
+            {
+                obj_p.transform.Find("Result").GetComponent<Text>().text = ResultNotification.stateVectorsResult.ToString();
+                obj_l.transform.Find("Result").GetComponent<Text>().text = ResultNotification.stateVectorsResult.ToString();
+            }
+            
             obj_p.transform.Find("State").GetComponent<Text>().text = "State\n" + quState;
             obj_l.transform.Find("State").GetComponent<Text>().text = "State\n" + quState;
         }
