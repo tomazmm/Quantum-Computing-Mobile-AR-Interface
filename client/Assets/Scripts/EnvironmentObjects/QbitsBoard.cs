@@ -440,6 +440,7 @@ namespace QuantomCOMP
                 createLine(numberBits, "AddButton");
             Canvas.isBoardActive = true;
             SharedStateSwitch.enableNavigationButtons();
+            QbitsGraph.setGraphsContent();
         }
 
         private void setBoard()
@@ -568,6 +569,7 @@ namespace QuantomCOMP
 
             rearangeAllConntectedLinesAndMeasurements("add", numberBits - 1);
             Qbit.assignAdditionalMeasurementareas();
+            QbitsGraph.setGraphsContent();
         }
 
         private void resizeBoard()
@@ -682,7 +684,8 @@ namespace QuantomCOMP
             }
             repositionOfClassicalRegister();
             repositionOfAddButton();
-            rearangeAllConntectedLinesAndMeasurements("remove", position);           
+            rearangeAllConntectedLinesAndMeasurements("remove", position);
+            QbitsGraph.setGraphsContent();
         }
 
 

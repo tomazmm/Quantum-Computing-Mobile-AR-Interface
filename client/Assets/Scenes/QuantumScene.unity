@@ -10552,6 +10552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f8b9de924d2cd4eb3aeb8bf82187a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  qbitBoxPrefab: {fileID: 4668862513672118913, guid: 95b051548f3467445a5da26080777402, type: 3}
 --- !u!1 &1692184918
 GameObject:
   m_ObjectHideFlags: 0
