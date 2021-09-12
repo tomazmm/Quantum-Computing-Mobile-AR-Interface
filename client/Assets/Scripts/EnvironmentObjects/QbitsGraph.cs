@@ -10,6 +10,7 @@ namespace QuantomCOMP
         // Start is called before the first frame update
         public static GameObject graph;
         public Transform qbitBoxPrefab;
+        public static Transform qbitBoxPrefabStatic;
         public static GameObject graphBox;
         private static int numberOfBars;
         public static List<GameObject> listOfBars;
@@ -23,6 +24,7 @@ namespace QuantomCOMP
             subscribeToConfirmPositionEvent();
             graph.SetActive(false);
             listOfBars = new List<GameObject>();
+            qbitBoxPrefabStatic = qbitBoxPrefab;
         }
 
         private void subscribeToConfirmPositionEvent()
@@ -30,16 +32,21 @@ namespace QuantomCOMP
             EstablishWorldObjects.ConfirmPositionOfProbabilitiesGraphEvent += setPositionGraph;
         }
 
-        private void createGraphBox()
+        private static void createGraphBox()
         {
             Transform prefabPhaseDisk;
-            prefabPhaseDisk = Instantiate(qbitBoxPrefab, this.gameObject.transform.position, this.gameObject.transform.rotation);
-            prefabPhaseDisk.transform.parent = this.gameObject.transform;
+            prefabPhaseDisk = Instantiate(qbitBoxPrefabStatic, graph.transform.position, graph.transform.rotation);
+            prefabPhaseDisk.transform.parent = graph.transform;
             graphBox = prefabPhaseDisk.gameObject;
         }
 
         private void setPositionGraph()
         {
+            if (graphBox != null)
+            {
+                GameObject.Destroy(graphBox);
+                listOfBars.Clear();
+            }
             graph.SetActive(true);
             graph.transform.position = MarkerIndicator.staticPlacementPose.position;
             graph.transform.rotation = MarkerIndicator.staticPlacementPose.rotation;
@@ -51,7 +58,13 @@ namespace QuantomCOMP
         {
             if(QbitsBoard.listOfQbits.Count > 0)
             {
-                removeBarsAndLabels();
+                if (graphBox != null)
+                {
+                    GameObject.Destroy(graphBox);
+                    listOfBars.Clear();
+                }
+                createGraphBox();
+                //removeBarsAndLabels();
                 setBoxSize();
                 createBars();
                 setBars();
@@ -59,16 +72,16 @@ namespace QuantomCOMP
             }      
         }
 
-        private static void removeBarsAndLabels()
-        {
-            foreach (GameObject bar in listOfBars)
-            {
-                GameObject.Destroy(bar);
-            }
-            listOfBars.Clear();
-            if(graphBox.transform.Find("Box").transform.Find("Bottom").transform.Find("Labels") != null)
-                graphBox.transform.Find("Box").transform.Find("Bottom").transform.Find("Labels").transform.parent = graphBox.transform;
-        }
+        //private static void removeBarsAndLabels()
+        //{
+        //    foreach (GameObject bar in listOfBars)
+        //    {
+        //        GameObject.Destroy(bar);
+        //    }
+        //    listOfBars.Clear();
+        //    if (graphBox.transform.Find("Box").transform.Find("Bottom").transform.Find("Labels") != null)
+        //        graphBox.transform.Find("Box").transform.Find("Bottom").transform.Find("Labels").transform.parent = graphBox.transform;
+        //}
 
         private static void UpdateRightLables()
         {
@@ -93,12 +106,16 @@ namespace QuantomCOMP
                 bar.name = "Bar" + x;
                 bar.transform.parent = parent.transform;
                 bar.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                bar.transform.localPosition = new Vector3(0, 0, 0);
+                bar.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                bar.GetComponent<MeshRenderer>().material = Resources.Load("TableMaterials/Bar", typeof(Material)) as Material;
                 listOfBars.Add(bar);
 
                 var label = new GameObject();
                 var mesh = label.AddComponent<TextMesh>();
                 label.transform.parent = bar.transform;
                 label.name = "Label";
+                label.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 label.transform.localPosition = new Vector3(0, -0.5f, 0);
                 label.transform.localScale = new Vector3(0.3f, 0.1f, 0.1f);
 
@@ -129,7 +146,8 @@ namespace QuantomCOMP
                 var mesh = label.AddComponent<TextMesh>();
                 label.transform.parent = bar.transform;
                 label.name = "Value";
-                label.transform.localPosition = new Vector3(0, 0.5f, 0);
+                label.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                label.transform.localPosition = new Vector3(0, 0.5f, -0.5f);
                 label.transform.localScale = new Vector3(0.3f, 0.1f, 0.1f);
 
                 mesh.text = (TESTVALUE).ToString();
