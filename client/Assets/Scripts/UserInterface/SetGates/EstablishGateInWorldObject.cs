@@ -51,7 +51,7 @@ namespace QuantomCOMP
             //SharedStateSwitch.enableDisableContent(true);
             Qbit.deleteUnconfirmedGates();
             removeGatesFromRepresentator();
-            ProbabilityCalculation.calculateProbability();
+            //ProbabilityCalculation.calculateProbability();
         }
 
         private void subscribeToEvent()
