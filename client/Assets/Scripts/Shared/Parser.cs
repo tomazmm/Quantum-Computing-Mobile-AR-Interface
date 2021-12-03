@@ -5,6 +5,17 @@ using UnityEngine;
 
 namespace QuantomCOMP
 {
+    public class Bar
+    {
+        public int position;
+        public int value;
+
+        public Bar(int position, int value)
+        {
+            this.position = position;
+            this.value = value;
+        }
+    }
     public class Parser
     {
         public static JToken counts { get; set; }
@@ -17,7 +28,35 @@ namespace QuantomCOMP
             counts = JObject.Parse(downloadHandeler)["counts"];
             state_vectors = JObject.Parse(downloadHandeler)["state_vectors"];
             sorted_sv_keys = JObject.Parse(downloadHandeler)["sorted_sv_keys"];
+            
+            QbitsGraph.resetBars();
+            setAllphaseDisks();
             setAllGatesWithoutState();
+        }
+
+        private static void setAllphaseDisks()
+        {
+            int allValues = 0;
+            List<Bar> allBars = new List<Bar>();
+            if (counts == null)
+                return;
+            foreach (var it in counts)
+            {
+                string[] split = it.ToString().Split(':');
+                string[] splitedKey = split[0].Split('x');
+                int value = int.Parse(split[1]); 
+                allValues += value;
+                //Debug.Log(splitedKey[1]..ToString());
+                int position = int.Parse(splitedKey[1].Remove(splitedKey[1].Length - 1)); 
+                Bar bar = new Bar(position, value);
+                allBars.Add(bar);
+                //QbitsGraph.updateBars(0, 0);
+            }
+            foreach(Bar it in allBars)
+            {
+                QbitsGraph.updateBars(it.position, it.value, allValues);
+            }
+            
         }
 
         private static void setAllGatesWithoutState()

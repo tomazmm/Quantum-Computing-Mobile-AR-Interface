@@ -495,7 +495,7 @@ namespace QuantomCOMP
                 qbitobject.line = line;
 
                 createNameTag("Qbit " + number, qbit, number);
-                createAddPhaseDisk(qbit);
+                //createAddPhaseDisk(qbit);
                 setAreasForGates(qbit, line, qbitobject);
 
 
@@ -674,7 +674,7 @@ namespace QuantomCOMP
 
             //Debug.Log("Delete line was clicked");
             resizeBoard();
-            listPhaseDisks.Remove(listPhaseDisks.Last());
+            //listPhaseDisks.Remove(listPhaseDisks.Last());
             for (int x = 0; x < numberBits; x++)
             {
                 var button_n = x;
@@ -833,7 +833,7 @@ namespace QuantomCOMP
                 float y = boardBackground.transform.localScale.y;
                 float z = boardBackground.transform.localScale.z; 
                 boardBackground.transform.localScale = new Vector3(boardBackground.transform.localScale.x + areaPositionConstant, y, z);
-                repositionPfaseDisks("right");
+                //repositionPfaseDisks("right");
                 Qbit.createAdditionalSpaceAreas(areaPositionConstant);
             }
         }
@@ -859,7 +859,7 @@ namespace QuantomCOMP
                 float y = boardBackground.transform.localScale.y;
                 float z = boardBackground.transform.localScale.z;
                 boardBackground.transform.localScale = new Vector3(boardBackground.transform.localScale.x - areaPositionConstant, y, z);
-                repositionPfaseDisks("left");
+                //repositionPfaseDisks("left");
                 Qbit.removeAdditionalSpaceAreas(areaPositionConstant);
             }         
         }

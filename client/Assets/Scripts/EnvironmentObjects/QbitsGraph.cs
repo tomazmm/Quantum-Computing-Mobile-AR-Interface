@@ -16,7 +16,7 @@ namespace QuantomCOMP
         public static List<GameObject> listOfBars;
         private static float yAxisParts = 0.06f;
 
-        private static float TESTVALUE = 85; //Change value with actual proc
+        private static float TESTVALUE = 0; //Change value with actual proc
 
         void Start()
         {
@@ -90,10 +90,6 @@ namespace QuantomCOMP
             labels.transform.localPosition = new Vector3(5, labels.transform.localPosition.y, labels.transform.localPosition.z);
         }
 
-        private static void setBarsValues()
-        {
-            
-        }
 
         private static void createBars()
         {
@@ -133,13 +129,13 @@ namespace QuantomCOMP
             {                       
                 bar.transform.parent = graphBox.transform.Find("Box").transform.Find("Bottom").transform;
                 float positionOffset = (10 - bar.transform.localScale.x) / (numberOfBars + (numberOfBars -1) + 1);
-                Debug.Log(10 - bar.transform.localScale.x+ "   " + (2 * numberOfBars - 2) + "   " + positionOffset);
+                //Debug.Log(10 - bar.transform.localScale.x+ "   " + (2 * numberOfBars - 2) + "   " + positionOffset);
                 if (x == 0)
                     previousXScale += bar.transform.localScale.x / 2 + positionOffset;
                 else
                     previousXScale += 2 * positionOffset;
                 bar.transform.localPosition = new Vector3(previousXScale, TESTVALUE * yAxisParts / 2, 0);
-                Debug.Log(yAxisParts);
+                //Debug.Log(yAxisParts);
                 bar.transform.localScale = new Vector3(bar.transform.localScale.x, yAxisParts * TESTVALUE, bar.transform.localScale.z);
 
                 var label = new GameObject();
@@ -156,6 +152,27 @@ namespace QuantomCOMP
                 x++;
             }
 
+        }
+
+        public static void updateBars(int poistion, int value, int allSeeds)
+        {
+            int newValue =  (value * 100) / allSeeds;
+            listOfBars[poistion].transform.localPosition = new Vector3(listOfBars[poistion].transform.localPosition.x, newValue * yAxisParts / 2, 0);
+            listOfBars[poistion].transform.localScale = new Vector3(listOfBars[poistion].transform.localScale.x, yAxisParts * newValue, listOfBars[poistion].transform.localScale.z);
+
+            listOfBars[poistion].transform.Find("Value").GetComponent<TextMesh>().text = newValue.ToString();
+        }
+
+        public static void resetBars()
+        {
+            foreach (GameObject bar in listOfBars)
+            {           
+                bar.transform.localPosition = new Vector3(bar.transform.localPosition.x, 0 * yAxisParts / 2, 0);
+                
+                bar.transform.localScale = new Vector3(bar.transform.localScale.x, yAxisParts * 0, bar.transform.localScale.z);
+
+                bar.transform.Find("Value").GetComponent<TextMesh>().text = 0.ToString();
+            }
         }
 
         private static void setBoxSize()
