@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 namespace QuantomCOMP
 {
@@ -35,6 +36,9 @@ namespace QuantomCOMP
             else
             {
                 Debug.Log(request.downloadHandler.text);
+                Parser.parseThrough(request.downloadHandler.text);
+                SharedStateSwitch.enableDisableNotification(true);
+                ResultNotification.changeState();
             }
  
         }

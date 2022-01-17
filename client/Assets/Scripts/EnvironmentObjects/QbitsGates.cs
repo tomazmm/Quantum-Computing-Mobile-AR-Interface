@@ -10,7 +10,7 @@ namespace QuantomCOMP
     {
         private GameObject gateArea;
         private WorldObject.Gates _gate;
-        private List<GameObject> gates;
+        public static List<GameObject> gates;
         private List<GameObject> tempGateWithManyAreas;
         private QbitArea mainArea;
         private bool switchState = false;
@@ -95,6 +95,7 @@ namespace QuantomCOMP
                     _qbit.areas[position].isConfirmed = false;
                     _qbit.areas[position].connectedGateArea = null;
                     _qbit.areas[position].isMainArea = false;
+                    _qbit.areas[position].usedinState = false;
                     _qbit.areas[position].positionsOfConnectedQbits.Clear();
                 }
             }
@@ -111,6 +112,7 @@ namespace QuantomCOMP
                     qbitArea.qbitGate = null;
                     qbitArea.connectedGateArea = null;
                     qbitArea.isMainArea = false;
+                    qbitArea.usedinState = false;
                     qbitArea.positionsOfConnectedQbits.Clear();
                     tempNumberOfGateAreas = 0;
                     numberOfGateAreas = 0;
@@ -124,7 +126,8 @@ namespace QuantomCOMP
                     qbitArea.isConfirmed = true;
                     if(qbitArea.connectedGateArea != null)
                         qbitArea.connectedGateArea.isConfirmed = true;
-                    qbitArea.qbitGate.GetComponent<MeshRenderer>().material = Resources.Load(qbitArea.qbitGate.name+"conf", typeof(Material)) as Material;               
+                    //Debug.Log(qbitArea.qbitGate);
+                    qbitArea.qbitGate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/"+qbitArea.qbitGate.name + "conf", typeof(Material)) as Material;
                 }
             }
             gates.Clear();
@@ -164,13 +167,18 @@ namespace QuantomCOMP
                 gate.transform.localScale = new Vector3(1.8f, 1.8f, 1.8f);
                 gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 gate.transform.localPosition = new Vector3(0, 0, 0);
-                gate.GetComponent<MeshRenderer>().material = Resources.Load(EstablishGateInWorldObject.gate.ToString(), typeof(Material)) as Material;
+                gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/"+EstablishGateInWorldObject.gate.ToString(), typeof(Material)) as Material;
                 var parent = gateArea.transform.parent;
                 var positionInList = parent.name.Substring(4);
                 var positionOfArea = gateArea.name.Substring(10);
                 QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1].qbitGate = gate;
                 QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1].isMainArea = true;
                 mainArea = QbitsBoard.listOfQbits[int.Parse(positionInList)].areas[int.Parse(positionOfArea) - 1];
+
+                if(_gate == WorldObject.Gates.Measurementgate)
+                {
+                    connectAreasToMeasurementGate(int.Parse(positionInList), int.Parse(positionOfArea) - 1);
+                }
 
                 tempNumberOfGateAreas++;
                 areasInRow = int.Parse(positionOfArea);
@@ -185,7 +193,7 @@ namespace QuantomCOMP
                 gate.transform.localScale = new Vector3(1.8f, 1.8f, 1.8f);
                 gate.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 gate.transform.localPosition = new Vector3(0, 0, 0);
-                gate.GetComponent<MeshRenderer>().material = Resources.Load(EstablishGateInWorldObject.gate.ToString() + "add", typeof(Material)) as Material;
+                gate.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/"+EstablishGateInWorldObject.gate.ToString() + "add", typeof(Material)) as Material;
                 var parent = gateArea.transform.parent;
                 var positionInList = parent.name.Substring(4);
                 var positionOfArea = gateArea.name.Substring(10);
@@ -203,6 +211,39 @@ namespace QuantomCOMP
                 gates.Add(gate);
                 tempGateWithManyAreas.Add(gate);
             }
+        }
+
+        private void createMeasurementLine(int positionInList, int positionOfArea)
+        {        
+            float distance = Vector3.Distance(QbitsBoard.listOfQbits[positionInList].areas[positionOfArea].qbitArea.transform.position, mainArea.qbitGate.transform.position) * 10;
+            float additionalForC = 2;
+
+            
+
+            var line = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            line.name = "lineto" + _gate.ToString() + "add" + tempNumberOfGateAreas;
+            line.transform.parent = mainArea.qbitGate.gameObject.transform;
+            line.transform.localScale = new Vector3(0.1f, (additionalForC + distance) + additionalForC/10 + distance / 10, 0.1f);
+            line.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            line.transform.localPosition = new Vector3(0, - distance / 2 - additionalForC / 2 - additionalForC/20 - distance / 20, 0);
+            line.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/MeasurementLine", typeof(Material)) as Material;
+        }
+
+        private void connectAreasToMeasurementGate(int positionInList, int positionOfArea)
+        {
+            for (int x = positionInList + 1; x < QbitsBoard.listOfQbits.Count; x++)
+            {
+                if (QbitsBoard.listOfQbits[x].areas[positionOfArea].qbitGate != null &&
+                    QbitsBoard.listOfQbits[x].areas[positionOfArea].connectedGateArea != mainArea)
+                {
+                    QbitArea mainQbitArea = QbitsBoard.listOfQbits[x].areas[positionOfArea].connectedGateArea;
+                    if (mainQbitArea == null)
+                        mainQbitArea = QbitsBoard.listOfQbits[x].areas[positionOfArea];
+                    removeAllConnectedAreas(positionOfArea, mainQbitArea);
+                }
+                QbitsBoard.listOfQbits[x].areas[positionOfArea].connectedGateArea = mainArea;
+            }
+            createMeasurementLine(QbitsBoard.listOfQbits.Count - 1, positionOfArea);
         }
 
         private void connectManyAreasToMainGate(int positionInList, int positionOfArea)
@@ -257,9 +298,10 @@ namespace QuantomCOMP
             var line = GameObject.CreatePrimitive(PrimitiveType.Cube);
             line.name = "lineto"+_gate.ToString() + "add" + tempNumberOfGateAreas;
             line.transform.parent = mainArea.qbitGate.gameObject.transform;
-            line.transform.localScale = new Vector3(0.2f, distance + distance/10, 0.1f);
+            line.transform.localScale = new Vector3(0.1f, distance + distance/10, 0.1f);
             line.transform.localRotation = new Quaternion(0, 0, 0, 0);
             line.transform.localPosition = new Vector3(0, reverse *(-distance/2 - distance/20), 0);
+            line.GetComponent<MeshRenderer>().material = Resources.Load("GateMaterials/Betweenline", typeof(Material)) as Material;
         }
 
         private void resetNumberOfGateAreas()

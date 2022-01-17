@@ -10,7 +10,8 @@ namespace QuantomCOMP
         public enum EnvironmentObject
         {
             Board,
-            BlochSphere
+            BlochSphere,
+            ProbabilitiesGraph
         }
 
         public enum Gates
@@ -21,7 +22,8 @@ namespace QuantomCOMP
             Notgate,
             CNotgate,
             Toffoligate,
-            Measurementgate
+            Measurementgate,
+            Resetgate,
         }
         public static List<string> listOfWObjects = new List<string>() { "Board", "Sphere" };
         public static List<string> listOfGates = new List<string>(){"None","H gate", "NOT gate", "CNOT gate", "Toffoli gate", "Measurement" };
@@ -48,7 +50,12 @@ namespace QuantomCOMP
         {
             if (section.Equals(nameOfSection))
             {
-                foreach (Transform child in GameObject.Find("Content").transform)
+                foreach (Transform child in GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("Menu").transform.Find("Content").transform)
+                {
+                    if (child.name.Contains(objectName))
+                        child.gameObject.SetActive(true);
+                }
+                foreach (Transform child in GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("Menu").transform.Find("Content").transform)
                 {
                     if (child.name.Contains(objectName))
                         child.gameObject.SetActive(true);
@@ -56,7 +63,12 @@ namespace QuantomCOMP
             }
             else
             {
-                foreach (Transform child in GameObject.Find("Content").transform)
+                foreach (Transform child in GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("Menu").transform.Find("Content").transform)
+                {
+                    if (child.name.Contains(objectName))
+                        child.gameObject.SetActive(false);
+                }
+                foreach (Transform child in GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("Menu").transform.Find("Content").transform)
                 {
                     if (child.name.Contains(objectName))
                         child.gameObject.SetActive(false);

@@ -15,6 +15,9 @@ namespace QuantomCOMP
         public delegate void EstablishPositionSphere ();
         public static event EstablishPositionSphere ConfirmPositionOfSphereEvent;
 
+        public delegate void EstablishPositionProbabilitiesGraph();
+        public static event EstablishPositionProbabilitiesGraph ConfirmPositionOfProbabilitiesGraphEvent;
+
         private void Start()
         {
             subscribeToEvent();
@@ -22,22 +25,23 @@ namespace QuantomCOMP
 
         public void closePositioning()
         {
-            SharedStateSwitch.enableDisableMenu(true);
-            SharedStateSwitch.enableDisableToggleMenuButton(true);
+            //SharedStateSwitch.enableDisableMenu(true);
             SharedStateSwitch.enableDisablePositioning(false);
         }
 
         public void confirmPositioning()
         {
             //SharedStateSwitch.enableDisableMenu(true);
-            SharedStateSwitch.enableDisableToggleMenuButton(true);
             SharedStateSwitch.enableDisablePositioning(false);
             SharedStateSwitch.disableAllAreaGatesButtons();
+            QbitsBoard.maxNumberOfAreas = 3;
 
             if (worldObject == WorldObject.EnvironmentObject.Board)
                 ConfirmPositionOfBoardEvent();
-            else
+            else if (worldObject == WorldObject.EnvironmentObject.BlochSphere)
                 ConfirmPositionOfSphereEvent();
+            else
+                ConfirmPositionOfProbabilitiesGraphEvent();
         }
 
 
@@ -50,10 +54,11 @@ namespace QuantomCOMP
         {
             worldObject = wObject;
 
-            setTitle();
             SetDropDownMenu();
-            SharedStateSwitch.enableDisableMenu(false);
-            SharedStateSwitch.enableDisableToggleMenuButton(false);
+            //SharedStateSwitch.enableDisableMenu(false);
+            //SharedStateSwitch.enableDisableContent(false);
+            //SharedStateSwitch.setAllButtonsInactive();
+            //Menu.isMenuActive = false;
             SharedStateSwitch.enableDisablePositioning(true);
         }
 
@@ -65,14 +70,6 @@ namespace QuantomCOMP
             else
                 SharedStateSwitch.enableDisableQubitsMenu(false);
             
-        }
-
-        private void setTitle()
-        {
-
-            GameObject.Find("Canvas").transform.Find("Portrait").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set " + WorldObject.listOfWObjects[(int)worldObject];
-            GameObject.Find("Canvas").transform.Find("Landscape").transform.Find("SetPositionScreen").transform.Find("Content").transform.Find("SubTop").transform.Find("Text").gameObject.GetComponent<Text>().text = "Set " + WorldObject.listOfWObjects[(int)worldObject];
-                  
         }
     }
 }

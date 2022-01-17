@@ -12,7 +12,7 @@ namespace QuantomCOMP
             objectName = "Gates";
             nameOfSection = Section.Gates;
             subscribeToSectionEvent();
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             SharedStateSwitch.disableAllAreaGatesButtons();
         }
 
@@ -41,14 +41,20 @@ namespace QuantomCOMP
             selectWorldObjectGate(WorldObject.Gates.Measurementgate);
         }
 
+        public void ResetGate()
+        {
+            selectWorldObjectGate(WorldObject.Gates.Resetgate);
+        }
+
         private void Update()
         {
             if(QbitsBoard.listOfQbits.Count() != 0)
             {
-                SharedStateSwitch.enableOneAreaGatesButtons();
-                if (QbitsBoard.listOfQbits.Count() == 2)
+                if(QbitsBoard.listOfQbits.Count() == 1)
+                    SharedStateSwitch.enableOneAreaGatesButtons();
+                else if (QbitsBoard.listOfQbits.Count() == 2)
                     SharedStateSwitch.enableTwoAreaGatesButtons();
-                if (QbitsBoard.listOfQbits.Count() >= 3)
+                else
                     SharedStateSwitch.enableThreeAreaGatesButtons();
             }
         }

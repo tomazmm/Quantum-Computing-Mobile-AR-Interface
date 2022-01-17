@@ -22,6 +22,11 @@ namespace QuantomCOMP
             selectWorldObject(WorldObject.EnvironmentObject.BlochSphere);
         }
 
+        public void setProbabilitiesGraph()
+        {
+            selectWorldObject(WorldObject.EnvironmentObject.ProbabilitiesGraph);
+        }
+
     }
 }
 
